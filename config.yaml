@@ -1,0 +1,3 @@
+output_folder: analysis_output
+samples:       metadata/samples.csv
+flank_length:  100

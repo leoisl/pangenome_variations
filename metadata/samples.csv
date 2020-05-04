@@ -1,0 +1,3 @@
+sample_id,reference,mask
+CFT073,sample_data/CFT073/CFT073.ref.fa,sample_data/CFT073/mask/CFT073.mask.bed
+H131800734,sample_data/H131800734/H131800734.ref.fa,sample_data/H131800734/mask/H131800734.mask.bed

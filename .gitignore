@@ -2,3 +2,13 @@
 \.idea/
 
 venv/
+
+\.snakemake/
+
+analysis_output/
+
+logs/
+
+src/__pycache__/
+
+sample_data/
