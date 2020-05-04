@@ -40,20 +40,20 @@ class ProbeInterval(NamedTuple):
 
 class ProbeHeader:
     def __init__(
-        self,
-        sample: str = None,
-        chrom: str = None,
-        pos: int = None,
-        ref_length: int = None,
-        interval: ProbeInterval = None,
-        svtype: str = None,
-        gt_conf: float = None,
-        coverage: float = None,
-        pangenome_variation_id: int = None,
-        number_of_alleles: int = None,
-        allele_id: int = None,
-        number_of_different_allele_sequences : int = None,
-        allele_sequence_id : int = None,
+            self,
+            sample: str = None,
+            chrom: str = None,
+            pos: int = None,
+            ref_length: int = None,
+            interval: ProbeInterval = None,
+            svtype: str = None,
+            gt_conf: float = None,
+            coverage: float = None,
+            pangenome_variation_id: int = None,
+            number_of_alleles: int = None,
+            allele_id: int = None,
+            number_of_different_allele_sequences: int = None,
+            allele_sequence_id: int = None,
     ):
         self.chrom = chrom
         self.sample = sample
@@ -94,7 +94,7 @@ class ProbeHeader:
     @staticmethod
     def from_string(string: str) -> "ProbeHeader":
         def parse_field_from_header(
-            field: str, header: str, return_type: Type, value_to_return_if_not_found, delim: str = DELIM,
+                field: str, header: str, return_type: Type, value_to_return_if_not_found, delim: str = DELIM,
         ):
             regex = re.compile(f"{field}=(.+?){delim}")
             match = regex.search(header)
@@ -116,7 +116,8 @@ class ProbeHeader:
         pangenome_variation_id = parse_field_from_header("PANGENOME_VARIATION_ID", string, int, None)
         number_of_alleles = parse_field_from_header("NUMBER_OF_ALLELES", string, int, None)
         allele_id = parse_field_from_header("ALLELE_ID", string, int, None)
-        number_of_different_allele_sequences = parse_field_from_header("NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES", string, int, None)
+        number_of_different_allele_sequences = parse_field_from_header("NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES", string,
+                                                                       int, None)
         allele_sequence_id = parse_field_from_header("ALLELE_SEQUENCE_ID", string, int, None)
 
         return ProbeHeader(

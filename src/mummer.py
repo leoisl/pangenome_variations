@@ -1,11 +1,11 @@
 """This file holds wrappers for running mummer commands."""
 import logging
+import re
 import subprocess
 from pathlib import Path
 from typing import List, TextIO, Tuple
 
 import pandas as pd
-import re
 
 
 class NucmerError(Exception):
@@ -19,12 +19,14 @@ class DeltaFilterError(Exception):
 class ShowSnpsError(Exception):
     pass
 
+
 class GetReportFromDeltaFileError(Exception):
     pass
 
+
 class Nucmer:
     def __init__(
-        self, reference: Path, query: Path, prefix: str = "out", extra_params: str = ""
+            self, reference: Path, query: Path, prefix: str = "out", extra_params: str = ""
     ):
         if not reference.is_file():
             raise NucmerError(f"Reference file {str(reference)} does not exist.")
@@ -83,8 +85,6 @@ class GetReportFromDeltaFile:
         return ref_aligned_bases_percentage, query_aligned_bases_percentage
 
 
-
-
 class DeltaFilter:
     def __init__(self, deltafile: Path, extra_params: str = ""):
         if not deltafile.is_file():
@@ -117,12 +117,12 @@ class DeltaFilter:
 
 class ShowSnps:
     def __init__(
-        self,
-        deltafile: Path,
-        context: int = 0,
-        print_header: bool = True,
-        indels: bool = True,
-        extra_params: str = "",
+            self,
+            deltafile: Path,
+            context: int = 0,
+            print_header: bool = True,
+            indels: bool = True,
+            extra_params: str = "",
     ):
         if not deltafile.is_file():
             raise ShowSnpsError(f"deltafile {str(deltafile)} does not exist.")
@@ -166,16 +166,16 @@ class ShowSnps:
         """Note: this method is not general. i.e it is only setup at the moment to
         parse a show-snps file where the options used were -rlTC and -x"""
         cols = {
-            "ref_pos": int,  #  P1,
-            "ref_sub": str,  #  SUB,
-            "query_sub": str,  #  SUB
-            "query_pos": int,  #  P2
-            "nearest_mismatch": int,  #  BUFF
-            "nearest_end": int,  #  DIST
-            "ref_len": int,  #  LEN R
-            "query_len": int,  #  LEN Q
+            "ref_pos": int,  # P1,
+            "ref_sub": str,  # SUB,
+            "query_sub": str,  # SUB
+            "query_pos": int,  # P2
+            "nearest_mismatch": int,  # BUFF
+            "nearest_end": int,  # DIST
+            "ref_len": int,  # LEN R
+            "query_len": int,  # LEN Q
             "ref_context": str,  # CTX R
-            "query_context": str,  #  CTX Q
+            "query_context": str,  # CTX Q
             "ref_strand": int,
             "query_strand": int,
             "ref_chrom": str,
@@ -211,7 +211,6 @@ class ShowSNPsDataframe(pd.DataFrame):
             return line
 
         return self.apply(translate_to_FWD_strand_core, axis=1)
-
 
     def make_pos_zero_based(self) -> "ShowSNPsDataframe":
         df = self.copy(deep=True)

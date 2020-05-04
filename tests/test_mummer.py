@@ -1,15 +1,14 @@
 import uuid
 from io import StringIO
 
-import pandas.errors
 import pytest
 
-from evaluate.mummer import *
+from src.mummer import *
 
-REF = Path("tests/test_cases/ref.fa")
-QUERY = Path("tests/test_cases/query.fa")
-DELTA = Path("tests/test_cases/out.delta")
-DELTA1 = Path("tests/test_cases/out.delta1")
+REF = Path("test_cases/ref.fa")
+QUERY = Path("test_cases/query.fa")
+DELTA = Path("test_cases/out.delta")
+DELTA1 = Path("test_cases/out.delta1")
 
 
 class TestNucmer:
@@ -101,7 +100,7 @@ class TestDeltaFilter:
         assert actual == expected
 
         actual = result.stdout.decode()
-        expected = """tests/test_cases/ref.fa tests/test_cases/query.fa
+        expected = """test_cases/ref.fa test_cases/query.fa
 NUCMER
 >ref query 85 84
 1 85 1 84 2 2 0
@@ -160,7 +159,7 @@ class TestShowSnps:
         assert actual == expected
 
         actual = result.stdout.decode()
-        expected = """tests/test_cases/ref.fa tests/test_cases/query.fa
+        expected = """test_cases/ref.fa test_cases/query.fa
 NUCMER
 
 [P1]\t[SUB]\t[SUB]\t[P2]\t[BUFF]\t[DIST]\t[LEN R]\t[LEN Q]\t[CTX R]\t[CTX Q]\t[FRM]\t[TAGS]
@@ -185,7 +184,7 @@ NUCMER
 
     def test_toDataFrame_validInputReturnCorrectDataframe(self):
         snps = StringIO(
-            """/home/michael/Projects/pandora1_paper/tests/test_cases/ref.fa /home/michael/Projects/pandora1_paper/tests/test_cases/query.fa
+            """test_cases/ref.fa test_cases/query.fa
 NUCMER
 
 [P1]\t[SUB]\t[SUB]\t[P2]\t[BUFF]\t[DIST]\t[LEN R]\t[LEN Q]\t[CTX R]\t[CTX Q]\t[FRM]\t[TAGS]
@@ -227,7 +226,7 @@ class TestShowSNPsDataframe:
 
     @staticmethod
     def create_showssnps_content(
-        ref_strand_is_reversed: bool, query_strand_is_reversed: bool
+            ref_strand_is_reversed: bool, query_strand_is_reversed: bool
     ) -> StringIO:
         ref_strand = -1 if ref_strand_is_reversed else 1
         query_strand = -1 if query_strand_is_reversed else 1
@@ -242,7 +241,7 @@ class TestShowSNPsDataframe:
 
     @staticmethod
     def create_expected_showsnps_dataframe(
-        ref_strand_is_reversed: bool, query_strand_is_reversed: bool
+            ref_strand_is_reversed: bool, query_strand_is_reversed: bool
     ) -> ShowSNPsDataframe:
         if ref_strand_is_reversed:
             ref_pos = TestShowSNPsDataframe.rev_ref_pos
@@ -274,7 +273,7 @@ class TestShowSNPsDataframe:
         )
 
     def test_translateToFWDStrand_queryStrandIsForwardRefStrandIsForwardReturnsPositionsWithNoChange(
-        self
+            self
     ):
         showsnps_content = TestShowSNPsDataframe.create_showssnps_content(
             ref_strand_is_reversed=False, query_strand_is_reversed=False
@@ -289,7 +288,7 @@ class TestShowSNPsDataframe:
         assert actual.equals(expected)
 
     def test_translateToFWDStrand_queryStrandIsReverseRefStrandIsForwardReturnsPositionsWithQueryChanged(
-        self
+            self
     ):
         showsnps_content = TestShowSNPsDataframe.create_showssnps_content(
             ref_strand_is_reversed=False, query_strand_is_reversed=True
@@ -304,7 +303,7 @@ class TestShowSNPsDataframe:
         assert actual.equals(expected)
 
     def test_translateToFWDStrand_queryStrandIsForwardRefStrandIsReverseReturnsPositionsWithRefChanged(
-        self
+            self
     ):
         showsnps_content = TestShowSNPsDataframe.create_showssnps_content(
             ref_strand_is_reversed=True, query_strand_is_reversed=False
@@ -319,7 +318,7 @@ class TestShowSNPsDataframe:
         assert actual.equals(expected)
 
     def test_translateToFWDStrand_queryStrandIsReverseRefStrandIsReverseReturnsBothPositionsChanged(
-        self
+            self
     ):
         showsnps_content = TestShowSNPsDataframe.create_showssnps_content(
             ref_strand_is_reversed=True, query_strand_is_reversed=True
@@ -332,7 +331,6 @@ class TestShowSNPsDataframe:
         )
 
         assert actual.equals(expected)
-
 
     def test_makePosZeroBased_emptyReturnsEmpty(self):
         df = ShowSNPsDataframe()
@@ -453,4 +451,4 @@ T.                        23(13.37%)           20(11.63%)
 """
         actual = GetReportFromDeltaFile.get_ref_and_query_aligned_bases_percentage(report)
         expected = (86.36, 81.51)
-        assert actual==expected
+        assert actual == expected

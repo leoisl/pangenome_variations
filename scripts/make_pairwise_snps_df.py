@@ -1,7 +1,9 @@
-from pathlib import Path
 import sys
+from pathlib import Path
+
 sys.path.append(str(Path().absolute()))
 import logging
+
 log_level = "INFO"
 logging.basicConfig(
     filename=str(snakemake.log),
@@ -11,17 +13,17 @@ logging.basicConfig(
     datefmt="%d/%m/%Y %I:%M:%S %p",
 )
 from io import StringIO
-from evaluate.mummer import ShowSnps, Nucmer, DeltaFilter, NucmerError, GetReportFromDeltaFile
+from src.mummer import ShowSnps, Nucmer, DeltaFilter, NucmerError, GetReportFromDeltaFile
 import pickle
 
 
 def generate_mummer_snps(
-    reference: Path,
-    query: Path,
-    prefix: Path = Path("out"),
-    flank_width: int = 0,
-    indels: bool = True,
-    print_header: bool = True,
+        reference: Path,
+        query: Path,
+        prefix: Path = Path("out"),
+        flank_width: int = 0,
+        indels: bool = True,
+        print_header: bool = True,
 ) -> StringIO:
     nucmer_params = "--maxmatch"
     nucmer = Nucmer(reference, query, str(prefix), extra_params=nucmer_params)
@@ -55,6 +57,7 @@ def generate_mummer_snps(
 
     return StringIO(showsnps_content)
 
+
 def get_dnadiff_report(
         prefix: Path = Path("out")
 ) -> str:
@@ -75,7 +78,6 @@ query1_name: str = snakemake.wildcards.sample1
 query2_name: str = snakemake.wildcards.sample2
 prefix: Path = Path(f"{query1_name}_and_{query2_name}")
 flank_width: int = snakemake.params.flank_length
-
 
 # API usage
 logging.info("Generating mummer snps")

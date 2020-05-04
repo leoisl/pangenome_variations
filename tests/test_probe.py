@@ -1,4 +1,4 @@
-from evaluate.probe import *
+from src.probe import *
 
 
 class TestInterval:
@@ -137,7 +137,7 @@ class TestProbeHeader:
         assert actual == expected
 
     def test_fromString_stringWithInvalidFieldReturnsProbeHeaderWithOnlyValidFields(
-        self
+            self
     ):
         string = ">CHROM=1;SAMPLE=CFT073;SVTYPE=INDEL;MEAN_FWD_COVG=2;INVALID=foo;MEAN_REV_COVG=3;GT_CONF=10.9922;"
 
@@ -186,8 +186,8 @@ class TestProbeHeader:
 
         actual = str(header)
         expected = ">CHROM=1;SAMPLE=CFT073;POS=1;REF_LENGTH=25;INTERVAL=[0,72);SVTYPE=INDEL;GT_CONF=10.9922;" \
-                 "COVERAGE=13;PANGENOME_VARIATION_ID=42;NUMBER_OF_ALLELES=3;ALLELE_ID=1;" \
-                 "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;"
+                   "COVERAGE=13;PANGENOME_VARIATION_ID=42;NUMBER_OF_ALLELES=3;ALLELE_ID=1;" \
+                   "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;"
 
         assert actual == expected
 
@@ -353,7 +353,7 @@ class TestProbe:
         assert actual == expected
 
     def test_getCoreSequence_intervalForSingleBaseAtStartOfSequenceReturnsSingleBase(
-        self
+            self
     ):
         header = ProbeHeader(interval=ProbeInterval(0, 1))
         full_sequence = "abcdefg"
@@ -365,7 +365,7 @@ class TestProbe:
         assert actual == expected
 
     def test_getCoreSequence_intervalForSingleBaseAtEndOfSequenceReturnsSingleBase(
-        self
+            self
     ):
         header = ProbeHeader(interval=ProbeInterval(6, 7))
         full_sequence = "abcdefg"
@@ -413,7 +413,7 @@ class TestProbe:
         assert actual == expected
 
     def test_fromString_headerAndEmptySequenceInStringReturnsProbeWithNoFullSequence(
-        self
+            self
     ):
         string = ">CHROM=1;INTERVAL=[3,5);\n"
 

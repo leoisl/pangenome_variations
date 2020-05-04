@@ -1,7 +1,9 @@
-from pathlib import Path
 import sys
+from pathlib import Path
+
 sys.path.append(str(Path().absolute()))
 import logging
+
 log_level = "INFO"
 logging.basicConfig(
     filename=str(snakemake.log),
@@ -10,9 +12,8 @@ logging.basicConfig(
     format="[%(asctime)s]:%(levelname)s: %(message)s",
     datefmt="%d/%m/%Y %I:%M:%S %p",
 )
-from evaluate.deduplicate_pairwise_snps import DeduplicationGraph
+from src.DeduplicationGraph import DeduplicationGraph
 import pickle
-
 
 # setup
 number_of_alleles_filepath = Path(snakemake.input.number_of_alleles_filepath)
