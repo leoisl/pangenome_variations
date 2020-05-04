@@ -23,6 +23,10 @@ sample_pairs_as_str = [f"{sample1}/{sample1}_and_{sample2}" for sample1, sample2
 # ======================================================
 # Rules
 # ======================================================
+rule all:
+    input:
+        expand(output_folder + "/truth_probesets/{sample_pairs_as_str}.truth_probeset.fa", sample_pairs_as_str=sample_pairs_as_str)
+
 rule make_pairwise_snps_df:
     input:
          truth1=lambda wildcards: samples.xs(wildcards.sample1)["reference_assembly"],
