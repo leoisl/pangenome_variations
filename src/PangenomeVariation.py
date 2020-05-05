@@ -5,6 +5,11 @@ from src.Allele import Allele
 
 
 class PangenomeVariation:
+    """
+    Class representing a pangenome variation or an equivalence class.
+    Note that, differently from PairwiseVariation, this class needs to know its Alleles.
+    """
+
     # Note: trivial method, not tested
     def __init__(self, id: int, alleles: Iterable[Allele]):
         self._id = id
