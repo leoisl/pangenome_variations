@@ -356,6 +356,27 @@ class TestShowSNPsDataframe:
 
         assert actual.equals(expected)
 
+    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___absolute_path(self):
+        filepath = "/home/leandro/git/pandora1_paper/analysis_output/recall/snps_dfs/CFT073/CFT073_and_H131800734.snps_df.pickle"
+        ref, query = ShowSNPsDataframe._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
+        assert ref == "CFT073" and query == "H131800734"
+
+    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___relative_path(self):
+        filepath = "analysis_output/recall/snps_dfs/CFT073/CFT073_and_H131800734.snps_df.pickle"
+        ref, query = ShowSNPsDataframe._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
+        assert ref == "CFT073" and query == "H131800734"
+
+    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___local_path(self):
+        filepath = "CFT073_and_H131800734.snps_df.pickle"
+        ref, query = ShowSNPsDataframe._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
+        assert ref == "CFT073" and query == "H131800734"
+
+    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___local_path___trivial_names(self):
+        filepath = "A_and_B.snps_df.pickle"
+        ref, query = ShowSNPsDataframe._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
+        assert ref == "A" and query == "B"
+
+
 
 class TestGetReportFromDeltaFile:
     def test_get_ref_and_query_aligned_bases_percentage(self):

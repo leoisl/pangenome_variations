@@ -610,28 +610,6 @@ class TestDeduplicatedVariationsDataframe(TestCase):
     #     assert actual == expected
 
 
-class TestDeduplicatePairwiseSNPsUtils(TestCase):
-    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___absolute_path(self):
-        filepath = "/home/leandro/git/pandora1_paper/analysis_output/recall/snps_dfs/CFT073/CFT073_and_H131800734.snps_df.pickle"
-        ref, query = DeduplicatePairwiseSNPsUtils._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
-        assert ref == "CFT073" and query == "H131800734"
-
-    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___relative_path(self):
-        filepath = "analysis_output/recall/snps_dfs/CFT073/CFT073_and_H131800734.snps_df.pickle"
-        ref, query = DeduplicatePairwiseSNPsUtils._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
-        assert ref == "CFT073" and query == "H131800734"
-
-    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___local_path(self):
-        filepath = "CFT073_and_H131800734.snps_df.pickle"
-        ref, query = DeduplicatePairwiseSNPsUtils._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
-        assert ref == "CFT073" and query == "H131800734"
-
-    def test___get_ref_and_query_from_ShowSNPsDataframe_filepath___local_path___trivial_names(self):
-        filepath = "A_and_B.snps_df.pickle"
-        ref, query = DeduplicatePairwiseSNPsUtils._get_ref_and_query_from_ShowSNPsDataframe_filepath(filepath)
-        assert ref == "A" and query == "B"
-
-
 class TestPangenomeVariation(TestCase):
     def test____get_unique_allele_sequences___one_allele(self, *mocks):
         pangenome_variation = PangenomeVariation(0, [Allele("genome_1", "chrom_1", 1, "A")])

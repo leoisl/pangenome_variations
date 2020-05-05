@@ -4,6 +4,7 @@ import re
 import subprocess
 from pathlib import Path
 from typing import List, TextIO, Tuple
+import pickle
 
 import pandas as pd
 
@@ -219,3 +220,25 @@ class ShowSNPsDataframe(pd.DataFrame):
         df["ref_pos"] = df["ref_pos"] - 1
         df["query_pos"] = df["query_pos"] - 1
         return df
+
+
+    # Note: not tested (trivial method)
+    @staticmethod
+    def load_pickled(df_filepath: str) -> "ShowSNPsDataframe":
+        with open(df_filepath, "rb") as df_fh:
+            snps_df = pickle.load(df_fh)
+        snps_df = snps_df.translate_to_FWD_strand()
+        return snps_df
+
+    def save_to_pickle(self, filepath: str):
+        with open(filepath, "wb") as fh:
+            pickle.dump(self, fh)
+
+    @staticmethod
+    def get_ref_and_query_from_ShowSNPsDataframe_filepath(ShowSNPsDataframe_filepath: str) -> Tuple[str, str]:
+        ShowSNPsDataframe_filepath = Path(ShowSNPsDataframe_filepath)
+        ShowSNPsDataframe_filename = ShowSNPsDataframe_filepath.name
+        matches = re.match(r"(.*)_and_(.*).snps_df.pickle", ShowSNPsDataframe_filename)
+        ref = matches.group(1)
+        query = matches.group(2)
+        return ref, query
