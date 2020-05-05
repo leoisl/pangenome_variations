@@ -3,10 +3,15 @@ from typing import List, Tuple, Set, Generator
 import networkx as nx
 
 
+class InconsistentPairwiseVariation(Exception):
+    pass
+
+
 class DeduplicationGraph:
     def __init__(self, number_of_alleles: int, pairwise_variation_id_to_alleles_id: List[Tuple[int, int]]):
         self._number_of_alleles = number_of_alleles
         self._pairwise_variation_id_to_alleles_id = pairwise_variation_id_to_alleles_id
+        self._graph = nx.Graph()
         self._build_graph_nodes()
         self._index()
         self._build_edges()
@@ -40,12 +45,14 @@ class DeduplicationGraph:
         return self._allele_to_pairwise_variations
 
     def _build_graph_nodes(self):
-        self._graph = nx.Graph()
         self._graph.add_nodes_from(range(self.number_of_pairwise_variations))
 
     def _index(self):
         self._allele_to_pairwise_variations = [set() for _ in range(self.number_of_alleles)]
         for pairwise_variation_id, (allele_id_1, allele_id_2) in enumerate(self.pairwise_variation_id_to_alleles_id):
+            if allele_id_1 >= allele_id_2:
+                raise InconsistentPairwiseVariation(
+                    f"Pairwise variation id {pairwise_variation_id} not correctly sorted: ({allele_id_1}, {allele_id_2})")
             self._allele_to_pairwise_variations[allele_id_1].add(pairwise_variation_id)
             self._allele_to_pairwise_variations[allele_id_2].add(pairwise_variation_id)
 
@@ -64,7 +71,6 @@ class DeduplicationGraph:
                         zip(pairwise_variations_as_list, pairwise_variations_as_list[1:]):
                     self._add_edge(pairwise_variation_1, pairwise_variation_2)
 
-    # Note: not tested (trivial method)
     def _get_connected_components(self) -> Generator[Set[int], None, None]:
         return nx.connected_components(self.graph)
 
