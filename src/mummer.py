@@ -229,11 +229,6 @@ class ShowSNPsDataframe(pd.DataFrame):
         snps_df = snps_df.translate_to_FWD_strand()
         return snps_df
 
-    # Note: not tested
-    def save_to_pickle(self, filepath: str):
-        with open(filepath, "wb") as fh:
-            pickle.dump(self, fh)
-
     @staticmethod
     def get_ref_and_query_from_ShowSNPsDataframe_filepath(ShowSNPsDataframe_filepath: str) -> Tuple[str, str]:
         ShowSNPsDataframe_filepath = Path(ShowSNPsDataframe_filepath)
