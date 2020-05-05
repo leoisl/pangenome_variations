@@ -2,24 +2,25 @@ from typing import List
 
 from src.Allele import Allele
 from src.MPHF import MPHF
-from src.Utils import Utils
 from src.mummer import ShowSNPsDataframe
 
 
 class AlleleMPHF(MPHF):
+    """
+    This class just aggregates helper functions to be used by the pipeline, not tested
+    """
     def __init__(self):
         super().__init__()
 
-    # helpers
     def _add_variants_from_ShowSNPsDataframe_core(self, ref: str, query: str, snps_df: ShowSNPsDataframe):
         for ref_allele, query_allele in Allele.get_alleles_from_ShowSNPsDataframe(ref, query, snps_df):
             self.add_object(ref_allele)
             self.add_object(query_allele)
 
     def _add_variants_from_ShowSNPsDataframe_filepath(self, ShowSNPsDataframe_filepath):
-        ref, query = Utils._get_ref_and_query_from_ShowSNPsDataframe_filepath(
+        ref, query = ShowSNPsDataframe.get_ref_and_query_from_ShowSNPsDataframe_filepath(
             ShowSNPsDataframe_filepath)
-        snps_df = Utils._load_pickled_ShowSNPsDataframe(ShowSNPsDataframe_filepath)
+        snps_df = ShowSNPsDataframe.load_pickled(ShowSNPsDataframe_filepath)
         self._add_variants_from_ShowSNPsDataframe_core(ref, query, snps_df)
 
     @staticmethod
