@@ -1,0 +1,14 @@
+##fileformat=VCFv4.3
+##fileDate==26/04/19
+##ALT=<ID=SNP,Description="SNP">
+##ALT=<ID=PH_SNPs,Description="Phased SNPs">
+##ALT=<ID=INDEL,Description="Insertion-deletion">
+##ALT=<ID=COMPLEX,Description="Complex variant, collection of SNPs and indels">
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of variant">
+##ALT=<ID=SIMPLE,Description="Graph bubble is simple">
+##ALT=<ID=NESTED,Description="Variation site was a nested feature in the graph">
+##ALT=<ID=TOO_MANY_ALTS,Description="Variation site was a multinested feature with too many alts to include all in the VCF">
+##INFO=<ID=GRAPHTYPE,Number=1,Type=String,Description="Type of graph feature">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	sample
+gene1	4	.	x	FOO	.	.	SVTYPE=COMPLEX;GRAPHTYPE=NESTED	GT:MEAN_FWD_COVG:MEAN_REV_COVG:MED_FWD_COVG:MED_REV_COVG:SUM_FWD_COVG:SUM_REV_COVG:GAPS:LIKELIHOOD:GT_CONF	1:24,6,0:30,7,0:24,0,0:30,0,0:24,24,0:30,30,0:0,0.75,1:-63.3221,-326.079,-432.546:262.757
+gene1	6	.	x	F	.	.	SVTYPE=COMPLEX;GRAPHTYPE=NESTED	GT:MEAN_FWD_COVG:MEAN_REV_COVG:MED_FWD_COVG:MED_REV_COVG:SUM_FWD_COVG:SUM_REV_COVG:GAPS:LIKELIHOOD:GT_CONF	1:24,6,0:30,7,0:24,0,0:30,0,0:24,24,0:30,30,0:0,0.75,1:-63.3221,-326.079,-432.546:262.757

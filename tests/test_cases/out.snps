@@ -1,0 +1,6 @@
+test_cases/ref.fa test_cases/query.fa
+NUCMER
+
+[P1]	[SUB]	[SUB]	[P2]	[BUFF]	[DIST]	[LEN R]	[LEN Q]	[CTX R]	[CTX Q]	[FRM]	[TAGS]
+39	G	.	38	34	38	85	84	GTAGTAG	GTA.TAG	1	1	ref	query
+73	T	A	72	13	13	85	84	GGATTGA	GGAATGA	1	1	ref	query

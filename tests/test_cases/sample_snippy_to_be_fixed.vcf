@@ -1,0 +1,33 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##fileDate=20190910
+##source=freeBayes v1.2.0-4-gd15209e
+##reference=reference/ref.fa
+##contig=<ID=NZ_CP007265.1,length=4758629>
+##phasing=none
+##commandline="freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f reference/ref.fa snps.bam --region NZ_CP007265.1:0-322530"
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">
+##INFO=<ID=RO,Number=1,Type=Integer,Description="Count of full observations of the reference haplotype.">
+##INFO=<ID=AO,Number=A,Type=Integer,Description="Count of full observations of this alternate haplotype.">
+##INFO=<ID=QR,Number=1,Type=Integer,Description="Reference allele quality sum in phred">
+##INFO=<ID=QA,Number=A,Type=Integer,Description="Alternate allele quality sum in phred">
+##INFO=<ID=AB,Number=A,Type=Float,Description="Allele balance at heterozygous sites: a number between 0 and 1 representing the ratio of reads showing the reference allele to all reads, considering only reads from individuals called as heterozygous">
+##INFO=<ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GL,Number=G,Type=Float,Description="Genotype Likelihood, log10-scaled likelihoods of the data given the called genotype for each possible genotype generated from the reference and alternate alleles given the sample ploidy">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">
+##FORMAT=<ID=RO,Number=1,Type=Integer,Description="Reference allele observation count">
+##FORMAT=<ID=QR,Number=1,Type=Integer,Description="Sum of quality of the reference observations">
+##FORMAT=<ID=AO,Number=A,Type=Integer,Description="Alternate allele observation count">
+##FORMAT=<ID=QA,Number=A,Type=Integer,Description="Sum of quality of the alternate observations">
+##bcftools_viewVersion=1.9+htslib-1.9
+##bcftools_viewCommand=view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' snps.raw.vcf; Date=Tue Sep 10 16:50:24 2019
+##bcftools_annotateVersion=1.9+htslib-1.9
+##bcftools_annotateCommand=annotate --remove ^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL; Date=Tue Sep 10 16:50:24 2019
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	snippy_ref
+NZ_CP007265.1	6148	.	T	C	2546.69	.	AB=0;AO=75;DP=75;QA=2874;QR=0;RO=0;TYPE=snp	GT:DP:RO:QR:AO:QA:GL	1/1:75:0:0:75:2874:-258.799,-22.5773,0
+NZ_CP007265.1	8018	.	C	T	1843.76	.	AB=0;AO=56;DP=56;QA=2088;QR=0;RO=0;TYPE=snp	GT:DP:RO:QR:AO:QA:GL	1/1:56:0:0:56:2088:-188.126,-16.8577,0
+NZ_CP007265.1	8511	.	ACG	GCA	1957.94	.	AB=0;AO=60;DP=62;QA=2275;QR=75;RO=2;TYPE=complex	GT:DP:RO:QR:AO:QA:GL	1/1:62:2:75:60:2275:-197.844,-11.9061,0
+NZ_CP007265.1	8511	.	ACG	GCA	1957.94	.	AB=0;AO=60;DP=62;QA=2275;QR=75;RO=2;TYPE=complex	GT:DP:RO:QR:AO:QA:GL	1/0:62:2:75:60:2275:-197.844,-11.9061,0
+NZ_CP007265.1	8511	.	ACG	GCA	1957.94	.	AB=0;AO=60;DP=62;QA=2275;QR=75;RO=2;TYPE=complex	GT:DP:RO:QR:AO:QA:GL	0/1:62:2:75:60:2275:-197.844,-11.9061,0
+NZ_CP007265.1	8511	.	ACG	GCA	1957.94	.	AB=0;AO=60;DP=62;QA=2275;QR=75;RO=2;TYPE=complex	GT:DP:RO:QR:AO:QA:GL	0/0:62:2:75:60:2275:-197.844,-11.9061,0

@@ -12,3 +12,11 @@ logs/
 src/__pycache__/
 
 sample_data/
+
+*.amb
+*.ann
+*.bwt
+*.pac
+*.sa
+*.tbi
+*.vcf.gz

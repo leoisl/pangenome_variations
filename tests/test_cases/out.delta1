@@ -1,0 +1,6 @@
+test_cases/ref.fa test_cases/query.fa
+NUCMER
+>ref query 85 84
+1 85 1 84 2 2 0
+39
+0

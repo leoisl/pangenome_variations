@@ -1,0 +1,25 @@
+##fileformat=VCFv4.3
+##fileDate==20/03/20
+##ALT=<ID=SNP,Description="SNP">
+##ALT=<ID=PH_SNPs,Description="Phased SNPs">
+##ALT=<ID=INDEL,Description="Insertion-deletion">
+##ALT=<ID=COMPLEX,Description="Complex variant, collection of SNPs and indels">
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of variant">
+##ALT=<ID=SIMPLE,Description="Graph bubble is simple">
+##ALT=<ID=NESTED,Description="Variation site was a nested feature in the graph">
+##ALT=<ID=TOO_MANY_ALTS,Description="Variation site was a multinested feature with too many alts to include all in the VCF">
+##INFO=<ID=GRAPHTYPE,Number=1,Type=String,Description="Type of graph feature">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=MEAN_FWD_COVG,Number=A,Type=Integer,Description="Mean forward coverage">
+##FORMAT=<ID=MEAN_REV_COVG,Number=A,Type=Integer,Description="Mean reverse coverage">
+##FORMAT=<ID=MED_FWD_COVG,Number=A,Type=Integer,Description="Med forward coverage">
+##FORMAT=<ID=MED_REV_COVG,Number=A,Type=Integer,Description="Med reverse coverage">
+##FORMAT=<ID=SUM_FWD_COVG,Number=A,Type=Integer,Description="Sum forward coverage">
+##FORMAT=<ID=SUM_REV_COVG,Number=A,Type=Integer,Description="Sum reverse coverage">
+##FORMAT=<ID=GAPS,Number=A,Type=Float,Description="Number of gap bases">
+##FORMAT=<ID=LIKELIHOOD,Number=A,Type=Float,Description="Likelihood">
+##FORMAT=<ID=GT_CONF,Number=1,Type=Float,Description="Genotype confidence">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	063_STEC.100x.random.illumina	CFT073.100x.random.illumina	H131800734.100x.random.illumina	ST38.100x.random.illumina
+Cluster_6872	131	.	C	A	.	.	SVTYPE=SNP;GRAPHTYPE=SIMPLE	GT:MEAN_FWD_COVG:MEAN_REV_COVG:MED_FWD_COVG:MED_REV_COVG:SUM_FWD_COVG:SUM_REV_COVG:GAPS:LIKELIHOOD:GT_CONF	0:9,0:7,0:9,0:7,0:27,0:22,0:0,1:-10.4705,-149.683:200	0:9,0:7,0:9,0:7,0:27,0:22,0:0,1:-10.4705,-149.683:400	0:9,0:7,0:9,0:7,0:27,0:22,0:0,1:-10.4705,-149.683:10000	0:9,0:7,0:9,0:7,0:27,0:22,0:0,1:-10.4705,-149.683:139.212
+GC00000244_37	1	.	ATGAGCACTATCACTAAAGAACGTATCGAATTTTTCATTAAATCCCCGCTTGATAACGGACTTACTCGTGGCGAACAAATGGAACTGGCACGAATTGCACTGGCATCGTTGGAAGCAGATCCAGTTAAACGAGTTAACTCAGATCAGA	A	.	.	SVTYPE=INDEL;GRAPHTYPE=SIMPLE	GT:MEAN_FWD_COVG:MEAN_REV_COVG:MED_FWD_COVG:MED_REV_COVG:SUM_FWD_COVG:SUM_REV_COVG:GAPS:LIKELIHOOD:GT_CONF	.:0,0:0,0:0,0:0,0:0,0:0,0:1,1:-136,-136:0	.:0,0:0,0:0,0:0,0:0,0:0,0:1,1:-146,-146:0.1	.:0,0:0,0:0,0:0,0:0,0:0,0:1,1:-118,-118:0.9	0:0,0:0,0:0,0:0,0:11,0:6,0:0.904762,1:-72.381,-76:1.0
+Cluster_9532	8	.	G	GT	.	.	SVTYPE=INDEL;GRAPHTYPE=SIMPLE	GT:MEAN_FWD_COVG:MEAN_REV_COVG:MED_FWD_COVG:MED_REV_COVG:SUM_FWD_COVG:SUM_REV_COVG:GAPS:LIKELIHOOD:GT_CONF	.:0,0:0,0:0,0:0,0:0,0:0,0:1,1:-136,-136:0	.:0,0:0,0:0,0:0,0:0,0:0,0:1,1:-146,-146:0	.:0,0:0,0:0,0:0,0:0,0:0,0:1,1:-118,-118:0	0:1,0:6,0:1,0:6,0:1,0:6,0:0,1:-21.0621,-108.236:87.1741
