@@ -1,7 +1,8 @@
 from unittest import TestCase
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from src.AlleleMPHF import AlleleMPHF
+from src.Allele import Allele
 from src.PairwiseVariation import PairwiseVariation, AlleleMPHFNotSetException
 
 
@@ -140,3 +141,28 @@ class TestPairwiseVariation(TestCase):
         pairwise_variation = PairwiseVariation(0, 0)
         with self.assertRaises(AlleleMPHFNotSetException):
             pairwise_variation.check_allele_mphf()
+
+
+    @patch.object(Allele, Allele.get_alleles_from_ShowSNPsDataframe.__name__, return_value=[
+        ("ref_allele_1", "query_allele_1"),
+        ("ref_allele_2", "query_allele_2"),
+        ("ref_allele_3", "query_allele_3"),
+    ])
+    def test___get_PairwiseVariation_from_ShowSNPsDataframe(self, *mocks):
+        allele_mphf = AlleleMPHF()
+        allele_mphf.add_object("ref_allele_1")
+        allele_mphf.add_object("query_allele_1")
+        allele_mphf.add_object("ref_allele_2")
+        allele_mphf.add_object("query_allele_2")
+        allele_mphf.add_object("ref_allele_3")
+        allele_mphf.add_object("query_allele_3")
+
+        actual_pairwise_variations = list(PairwiseVariation.get_PairwiseVariation_from_ShowSNPsDataframe("ref", "query",
+                                                                                                    None, allele_mphf))
+        expected_pairwise_variations = [
+            PairwiseVariation(0, 1),
+            PairwiseVariation(2, 3),
+            PairwiseVariation(4, 5),
+        ]
+
+        self.assertListEqual(actual_pairwise_variations, expected_pairwise_variations)

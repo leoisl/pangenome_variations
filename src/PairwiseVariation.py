@@ -94,7 +94,6 @@ class PairwiseVariation:
         return self.allele_1_id == other.allele_1_id or self.allele_1_id == other.allele_2_id or \
                self.allele_2_id == other.allele_1_id or self.allele_2_id == other.allele_2_id
 
-    # Note: tested through DeduplicationGraph._add_variants_from_ShowSNPsDataframe_core()
     @staticmethod
     def get_PairwiseVariation_from_ShowSNPsDataframe(ref: str, query: str, snps_df: ShowSNPsDataframe,
                                                      allele_mphf: AlleleMPHF) -> Generator[
