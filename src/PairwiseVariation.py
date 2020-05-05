@@ -6,14 +6,21 @@ from src.AlleleMPHF import AlleleMPHF
 from src.mummer import ShowSNPsDataframe
 
 
+class AlleleMPHFNotSetException(Exception):
+    pass
+
+
 @functools.total_ordering
 class PairwiseVariation:
     """
-    Pairwise variation does not know alleles, only allele IDs
+    Note: Pairwise variation does not know alleles, only allele IDs.
+    It can know alleles if the allele_mphf is given, which translate allele IDs to alleles.
     """
-
     def __init__(self, ref_allele_id: int, query_allele_id: int,
-                 allele_mphf: AlleleMPHF):
+                 allele_mphf: AlleleMPHF = None):
+        """
+        :param allele_mphf: translator of allele IDs to alleles, making a PairwiseVariation actually know its alleles
+        """
         # this ordering is done to facilitate the usage of this class, for the equal and hash functions
         self._allele_1_id = min(ref_allele_id, query_allele_id)
         self._allele_2_id = max(ref_allele_id, query_allele_id)
@@ -38,20 +45,32 @@ class PairwiseVariation:
         return self._original_query_allele_id
 
     @property
+    def allele_mphf(self) -> AlleleMPHF:
+        return self._allele_mphf
+
+    def check_allele_mphf(self):
+        if self.allele_mphf is None:
+            raise AlleleMPHFNotSetException()
+
+    @property
     def allele_1(self) -> Allele:
-        return self._allele_mphf.get_object(self.allele_1_id)
+        self.check_allele_mphf()
+        return self.allele_mphf.get_object(self.allele_1_id)
 
     @property
     def allele_2(self) -> Allele:
-        return self._allele_mphf.get_object(self.allele_2_id)
+        self.check_allele_mphf()
+        return self.allele_mphf.get_object(self.allele_2_id)
 
     @property
     def original_ref_allele(self) -> Allele:
-        return self._allele_mphf.get_object(self.original_ref_allele_id)
+        self.check_allele_mphf()
+        return self.allele_mphf.get_object(self.original_ref_allele_id)
 
     @property
     def original_query_allele(self) -> Allele:
-        return self._allele_mphf.get_object(self.original_query_allele_id)
+        self.check_allele_mphf()
+        return self.allele_mphf.get_object(self.original_query_allele_id)
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, PairwiseVariation):
