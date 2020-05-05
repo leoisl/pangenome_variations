@@ -62,7 +62,6 @@ class Allele:
     def __repr__(self):
         return str(vars(self))
 
-    # Note: tested through DeduplicationGraph._add_variants_from_ShowSNPsDataframe_core()
     @staticmethod
     def get_alleles_from_ShowSNPsDataframe(ref: str, query: str, snps_df: ShowSNPsDataframe) -> Generator[
         Tuple["Allele", "Allele"], None, None]:
