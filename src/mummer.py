@@ -221,8 +221,7 @@ class ShowSNPsDataframe(pd.DataFrame):
         df["query_pos"] = df["query_pos"] - 1
         return df
 
-
-    # Note: not tested (trivial method)
+    # Note: not tested
     @staticmethod
     def load_pickled(df_filepath: str) -> "ShowSNPsDataframe":
         with open(df_filepath, "rb") as df_fh:
@@ -230,6 +229,7 @@ class ShowSNPsDataframe(pd.DataFrame):
         snps_df = snps_df.translate_to_FWD_strand()
         return snps_df
 
+    # Note: not tested
     def save_to_pickle(self, filepath: str):
         with open(filepath, "wb") as fh:
             pickle.dump(self, fh)
