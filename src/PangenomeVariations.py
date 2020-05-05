@@ -4,12 +4,10 @@ from src.AlleleMPHF import AlleleMPHF
 from src.PangenomeVariation import PangenomeVariation
 
 
-# Note: trivial class, not tested
 class PangenomeVariations:
     """
     Stores a list of PangenomeVariation
     """
-
     def __init__(self):
         self._pangenome_variations = []
 
