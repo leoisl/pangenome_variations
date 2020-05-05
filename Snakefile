@@ -44,7 +44,7 @@ rule make_pairwise_snps_df:
     resources:
              mem_mb=lambda wildcards, attempt: 4000 * attempt
     log:
-       "logs/make_pairwise_snps_df/{sample1}_and_{sample2}.log"
+          "logs/make_pairwise_snps_df/{sample1}_and_{sample2}.log"
     script:
           "scripts/make_pairwise_snps_df.py"
 
@@ -117,7 +117,7 @@ rule convert_pangenome_variations_to_deduplicated_snps_df:
     log:
        "logs/convert_pangenome_variations_to_deduplicated_snps_df.log"
     script:
-          "scripts/convert_pangenome_variations_to_deduplicated_snps_df.py"
+       "scripts/convert_pangenome_variations_to_deduplicated_snps_df.py"
 
 
 rule make_truth_probeset:
