@@ -1,5 +1,5 @@
 import pickle
-from typing import Dict, List, TextIO, BinaryIO
+from typing import Dict, List
 
 
 class MPHF:
@@ -33,10 +33,16 @@ class MPHF:
         return len(self.object_to_id)
 
     # serialization
-    def dump(self, file_with_nb_of_objects: TextIO, pickle_file: BinaryIO):
-        file_with_nb_of_objects.write(str(self.get_number_of_objects()))
-        pickle.dump(self, pickle_file)
+    # Note: not tested
+    # TODO: use TextIO and BinaryIO instead?
+    def save(self, file_with_nb_of_objects_filepath: str, pickle_filepath: str):
+        with open(file_with_nb_of_objects_filepath, "w") as file_with_nb_of_objects_filehandler:
+            file_with_nb_of_objects_filehandler.write(str(self.get_number_of_objects()))
+        with open(pickle_filepath, "wb") as pickle_filehandler:
+            pickle.dump(self, pickle_filehandler)
 
+    # Note: not tested
     @staticmethod
-    def load(file: BinaryIO) -> "MPHF":
-        return pickle.load(file)
+    def load(pickle_filepath: str) -> "MPHF":
+        with open(pickle_filepath, "rb") as pickle_filehandler:
+            return pickle.load(pickle_filehandler)
