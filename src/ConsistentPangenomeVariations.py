@@ -7,7 +7,6 @@ from src.DeduplicatedVariationsDataframe import DeduplicatedVariationsDataframe
 from src.PairwiseVariation import PairwiseVariation
 from src.PangenomeVariation import PangenomeVariation
 from src.PangenomeVariations import PangenomeVariations
-from src.Utils import Utils
 from src.mummer import ShowSNPsDataframe
 
 
@@ -43,7 +42,7 @@ class ConsistentPangenomeVariations:
         return self._alleles_to_consistent_pangenome_variations
 
     def get_consistent_pangenome_variation(self, pairwise_variation: PairwiseVariation) -> Optional[PangenomeVariation]:
-        # Note: pangenome_variation_of_allele_1/2 can be None
+        # Note: pangenome_variation_of_allele_1 or 2 can be None
         pangenome_variation_of_allele_1 = self.alleles_to_consistent_pangenome_variations[pairwise_variation.allele_1]
         pangenome_variation_of_allele_2 = self.alleles_to_consistent_pangenome_variations[pairwise_variation.allele_2]
 
@@ -123,8 +122,8 @@ class ConsistentPangenomeVariations:
         Loads a ShowSNPsDataframe, add all the relevant information about Consistent Pangenome Variations into it,
         builds the DeduplicatedVariationsDataframe, and filter out variations that are not in a Consistent Pangenome Variation
         """
-        ref, query = Utils._get_ref_and_query_from_ShowSNPsDataframe_filepath(ShowSNPsDataframe_filepath)
-        snps_df = Utils._load_pickled_ShowSNPsDataframe(ShowSNPsDataframe_filepath)
+        ref, query = ShowSNPsDataframe.get_ref_and_query_from_ShowSNPsDataframe_filepath(ShowSNPsDataframe_filepath)
+        snps_df = ShowSNPsDataframe.load_pickled(ShowSNPsDataframe_filepath)
         deduplicated_snps_df = self._get_DeduplicatedVariationsDataframe(ref, query, snps_df, allele_mphf)
         filtered_snps_df = deduplicated_snps_df[
             deduplicated_snps_df.present_in_a_consistent_pangenome_variation == True]
