@@ -224,8 +224,7 @@ class ShowSNPsDataframe(pd.DataFrame):
     # Note: not tested
     @staticmethod
     def load_pickled(df_filepath: str) -> "ShowSNPsDataframe":
-        with open(df_filepath, "rb") as df_fh:
-            snps_df = pickle.load(df_fh)
+        snps_df = pd.read_pickle(df_filepath)
         snps_df = snps_df.translate_to_FWD_strand()
         return snps_df
 
