@@ -32,7 +32,10 @@ with open(pangenome_variations_defined_by_allele_ids_filepath, "rb") as pangenom
 pangenome_variations = PangenomeVariations.build_from_pangenome_variations_defined_by_allele_ids(
     pangenome_variations_defined_by_allele_ids, allele_mphf
 )
-consistent_pangenome_variations = ConsistentPangenomeVariations(pangenome_variations)
+consistent_pangenome_variations = ConsistentPangenomeVariations(pangenome_variations, filter_for_biallelic=True)
+logging.info(f"Number of pangenome variations: {consistent_pangenome_variations.number_of_pangenome_variations}")
+logging.info(f"Number of consistent pangenome variations: {consistent_pangenome_variations.number_of_consistent_pangenome_variations}")
+logging.info(f"Number of consistent biallelic pangenome variations: {consistent_pangenome_variations.number_of_consistent_biallelic_pangenome_variations}")
 
 # write the enriched and filtered deduplicated variations
 for snps_df_filepath, deduplicated_snps_df_filepath, deduplicated_snps_df_text_filepath \

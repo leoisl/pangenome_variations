@@ -15,9 +15,9 @@ from src.AlleleMPHF import AlleleMPHF
 
 class TestConsistentPangenomeVariations(TestCase):
     def setUp(self) -> None:
-        self.dummy_consistent_pangenome_variations = ConsistentPangenomeVariations(PangenomeVariations())
+        self.dummy_consistent_pangenome_variations = ConsistentPangenomeVariations(PangenomeVariations(), filter_for_biallelic=False)
 
-    def test___constructor(self):
+    def test___constructor___filter_inconsistent_variations_out(self):
         # setup
         consistent_pangenome_variations = []
         alleles_to_consistent_pangenome_variations = {}
@@ -45,12 +45,62 @@ class TestConsistentPangenomeVariations(TestCase):
         ]
         pangenome_variations = PangenomeVariations()
         pangenome_variations._pangenome_variations = list_of_pangenome_variations
-        actual_consistent_pangenome_variations = ConsistentPangenomeVariations(pangenome_variations)
+        actual_consistent_pangenome_variations = ConsistentPangenomeVariations(pangenome_variations, filter_for_biallelic=False)
 
         self.assertListEqual(actual_consistent_pangenome_variations.consistent_pangenome_variations,
                              consistent_pangenome_variations)
         self.assertDictEqual(actual_consistent_pangenome_variations.alleles_to_consistent_pangenome_variations,
                              alleles_to_consistent_pangenome_variations)
+        self.assertEqual(actual_consistent_pangenome_variations.number_of_pangenome_variations, 6)
+        self.assertEqual(actual_consistent_pangenome_variations.number_of_consistent_pangenome_variations, 3)
+
+    def test___constructor___filter_inconsistent_variations_out___keep_only_biallelic_ones(self):
+        # setup
+        biallelic_consistent_pangenome_variations = []
+        non_biallelic_consistent_pangenome_variations = []
+        alleles_to_biallelic_consistent_pangenome_variations = {}
+        number_of_alleles_in_each_consistent_variation = [3, 1, 2, 4, 2]
+        for consistent_variation_index, number_of_alleles in enumerate(number_of_alleles_in_each_consistent_variation):
+            consistent_pangenome_variation = Mock(get_number_of_different_allele_sequences=Mock(return_value=number_of_alleles))
+            consistent_pangenome_variation.is_consistent.return_value = True
+            consistent_pangenome_variation.alleles = [
+                f"consistent_pangenome_variation_{consistent_variation_index}.allele_{allele_index}"
+                for allele_index in range(number_of_alleles)]
+
+            if number_of_alleles == 2:
+                for allele in consistent_pangenome_variation.alleles:
+                    alleles_to_biallelic_consistent_pangenome_variations[allele] = consistent_pangenome_variation
+                biallelic_consistent_pangenome_variations.append(consistent_pangenome_variation)
+            else:
+                non_biallelic_consistent_pangenome_variations.append(consistent_pangenome_variation)
+
+        inconsistent_pangenome_variations = []
+        for _ in range(3):
+            inconsistent_pangenome_variation = Mock()
+            inconsistent_pangenome_variation.is_consistent.return_value = False
+            inconsistent_pangenome_variations.append(inconsistent_pangenome_variation)
+
+        list_of_pangenome_variations = [
+            biallelic_consistent_pangenome_variations[0],
+            inconsistent_pangenome_variations[0],
+            non_biallelic_consistent_pangenome_variations[0],
+            inconsistent_pangenome_variations[1],
+            inconsistent_pangenome_variations[2],
+            biallelic_consistent_pangenome_variations[1],
+            non_biallelic_consistent_pangenome_variations[1],
+            non_biallelic_consistent_pangenome_variations[2],
+        ]
+        pangenome_variations = PangenomeVariations()
+        pangenome_variations._pangenome_variations = list_of_pangenome_variations
+        actual_consistent_pangenome_variations = ConsistentPangenomeVariations(pangenome_variations, filter_for_biallelic=True)
+
+        self.assertListEqual(actual_consistent_pangenome_variations.consistent_pangenome_variations,
+                             biallelic_consistent_pangenome_variations)
+        self.assertDictEqual(actual_consistent_pangenome_variations.alleles_to_consistent_pangenome_variations,
+                             alleles_to_biallelic_consistent_pangenome_variations)
+        self.assertEqual(actual_consistent_pangenome_variations.number_of_pangenome_variations, 8)
+        self.assertEqual(actual_consistent_pangenome_variations.number_of_consistent_pangenome_variations, 5)
+        self.assertEqual(actual_consistent_pangenome_variations.number_of_consistent_biallelic_pangenome_variations, 2)
 
     @patch.object(ConsistentPangenomeVariations, "alleles_to_consistent_pangenome_variations",
                   new_callable=PropertyMock,

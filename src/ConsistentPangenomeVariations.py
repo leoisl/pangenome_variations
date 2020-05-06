@@ -20,14 +20,37 @@ class ConsistentPangenomeVariations:
     For the definition of consistent Pangenome Variations, see https://github.com/iqbal-lab/pandora1_paper/issues/144#issue-603283664
     """
 
-    def __init__(self, pangenome_variations: PangenomeVariations):
+    def __init__(self, pangenome_variations: PangenomeVariations, filter_for_biallelic: bool):
+        self._consistent_pangenome_variations = [pangenome_variation for pangenome_variation in pangenome_variations.pangenome_variations]
+        self._number_of_pangenome_variations = len(self.consistent_pangenome_variations)
+
+        self._filter_for_consistency()
+        self._number_of_consistent_pangenome_variations = len(self.consistent_pangenome_variations)
+
+        if filter_for_biallelic:
+            self._filter_for_biallelism()
+            self._number_of_consistent_biallelic_pangenome_variations = len(self.consistent_pangenome_variations)
+
+        self._index()
+
+    def _filter_for_consistency(self):
         self._consistent_pangenome_variations = [
             pangenome_variation \
-            for pangenome_variation in pangenome_variations.pangenome_variations \
+            for pangenome_variation in self.consistent_pangenome_variations \
             if pangenome_variation.is_consistent()
         ]
 
-        # this allele to consistent_pangenome_variations indexing is to speedup some methods
+    def _filter_for_biallelism(self):
+        self._consistent_pangenome_variations = [
+            pangenome_variation \
+            for pangenome_variation in self.consistent_pangenome_variations \
+            if pangenome_variation.get_number_of_different_allele_sequences() == 2
+        ]
+
+    def _index(self):
+        """
+        This allele to consistent_pangenome_variations indexing is to speedup some methods
+        """
         self._alleles_to_consistent_pangenome_variations = defaultdict(lambda: None)
         for consistent_pangenome_variation in self.consistent_pangenome_variations:
             for allele in consistent_pangenome_variation.alleles:
@@ -40,6 +63,18 @@ class ConsistentPangenomeVariations:
     @property
     def alleles_to_consistent_pangenome_variations(self) -> Dict[Allele, Optional[PangenomeVariation]]:
         return self._alleles_to_consistent_pangenome_variations
+
+    @property
+    def number_of_pangenome_variations(self) -> int:
+        return self._number_of_pangenome_variations
+
+    @property
+    def number_of_consistent_pangenome_variations(self) -> int:
+        return self._number_of_consistent_pangenome_variations
+
+    @property
+    def number_of_consistent_biallelic_pangenome_variations(self) -> int:
+        return self._number_of_consistent_biallelic_pangenome_variations
 
     def get_consistent_pangenome_variation(self, pairwise_variation: PairwiseVariation) -> Optional[PangenomeVariation]:
         # Note: pangenome_variation_of_allele_1 or 2 can be None
