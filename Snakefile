@@ -76,7 +76,7 @@ rule make_pairwise_variants_mphf:
           pairwise_variation_id_to_alleles_id=output_folder + "/pairwise_variants_mphf/pairwise_variation_id_to_alleles_id.pickle",
     threads: 1
     resources:
-             mem_mb=lambda wildcards, attempt: 16000 * attempt
+             mem_mb=lambda wildcards, attempt: 20000 * attempt
     log:
        "logs/make_pairwise_variants_mphf.log"
     script:
@@ -91,7 +91,7 @@ rule deduplicate_pairwise_snps:
           pangenome_variations_defined_by_allele_ids=output_folder + "/deduplicate_pairwise_snps/pangenome_variations_defined_by_allele_ids.pickle",
     threads: 1
     resources:
-             mem_mb=lambda wildcards, attempt: 16000 * attempt
+             mem_mb=lambda wildcards, attempt: 40000 * attempt
     log:
        "logs/deduplicate_pairwise_snps.log"
     script:
