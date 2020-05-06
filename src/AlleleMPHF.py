@@ -1,4 +1,5 @@
 from typing import List
+import logging
 
 from src.Allele import Allele
 from src.MPHF import MPHF
@@ -25,7 +26,10 @@ class AlleleMPHF(MPHF):
 
     @staticmethod
     def build_from_list_of_snps_dfs_filepaths(snps_dfs_filepaths: List[str]) -> "AlleleMPHF":
+        logging.info("Building AlleleMPHF from list of ShowSNPsDataframes...")
         allele_mphf = AlleleMPHF()
         for snps_df_filepath in snps_dfs_filepaths:
+            logging.info(f"Adding {snps_df_filepath}...")
             allele_mphf._add_variants_from_ShowSNPsDataframe_filepath(snps_df_filepath)
+        logging.info("Building AlleleMPHF from list of ShowSNPsDataframes - Done")
         return allele_mphf

@@ -1,5 +1,6 @@
 import pickle
 from typing import List, Tuple
+import logging
 
 from src.AlleleMPHF import AlleleMPHF
 from src.MPHF import MPHF
@@ -32,11 +33,17 @@ class PairwiseVariationMPHF(MPHF):
     @staticmethod
     def build_from_list_of_snps_dfs_filepaths(snps_dfs_filepaths: List[str],
                                               allele_mphf_filepath: str) -> "PairwiseVariationMPHF":
+        logging.info("Building PairwiseVariationMPHF from list of ShowSNPsDataframes...")
 
+        logging.info("Loading AlleleMPHF...")
         allele_mphf = AlleleMPHF.load(allele_mphf_filepath)
+
         pairwise_variation_mphf = PairwiseVariationMPHF()
         for snps_df_filepath in snps_dfs_filepaths:
+            logging.info(f"Adding {snps_df_filepath}...")
             pairwise_variation_mphf._add_variants_from_ShowSNPsDataframe_filepath(snps_df_filepath, allele_mphf)
+        logging.info("Building PairwiseVariationMPHF from list of ShowSNPsDataframes - Done")
+
         return pairwise_variation_mphf
 
     def get_pairwise_variation_id_to_alleles_id(self) -> List[Tuple[int, int]]:

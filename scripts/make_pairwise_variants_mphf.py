@@ -24,5 +24,7 @@ pairwise_variation_id_to_alleles_id_filename = snakemake.output.pairwise_variati
 # API usage
 pairwise_variants_mphf = PairwiseVariationMPHF.build_from_list_of_snps_dfs_filepaths(snps_dfs_filenames,
                                                                                      allele_mphf_filename)
+logging.info("Saving PairwiseVariationMPHF...")
 pairwise_variants_mphf.save(number_of_pairwise_variants_filename, pairwise_variants_mphf_filename,
                             pairwise_variation_id_to_alleles_id_filename)
+logging.info("Done!")

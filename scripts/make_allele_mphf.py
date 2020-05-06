@@ -21,4 +21,6 @@ alelle_mphf_filepath = snakemake.output.alelle_mphf
 
 # API usage
 allele_mphf = AlleleMPHF.build_from_list_of_snps_dfs_filepaths(snps_dfs_filepaths)
+logging.info("Saving AlleleMPHF...")
 allele_mphf.save(number_of_alleles_filepath, alelle_mphf_filepath)
+logging.info("Done!")
