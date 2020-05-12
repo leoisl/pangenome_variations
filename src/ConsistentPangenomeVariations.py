@@ -1,5 +1,6 @@
 from collections import defaultdict
 from typing import List, Dict, Optional
+import pickle
 
 from src.Allele import Allele
 from src.AlleleMPHF import AlleleMPHF
@@ -47,11 +48,15 @@ class ConsistentPangenomeVariations:
             if pangenome_variation.get_number_of_different_allele_sequences() == 2
         ]
 
+    @staticmethod
+    def _none_factory():
+        return None
+
     def _index(self):
         """
         This allele to consistent_pangenome_variations indexing is to speedup some methods
         """
-        self._alleles_to_consistent_pangenome_variations = defaultdict(lambda: None)
+        self._alleles_to_consistent_pangenome_variations = defaultdict(ConsistentPangenomeVariations._none_factory)
         for consistent_pangenome_variation in self.consistent_pangenome_variations:
             for allele in consistent_pangenome_variation.alleles:
                 self._alleles_to_consistent_pangenome_variations[allele] = consistent_pangenome_variation
@@ -167,3 +172,17 @@ class ConsistentPangenomeVariations:
 
     def __repr__(self):
         return str(vars(self))
+
+
+    # serialization
+    # Note: not tested
+    # TODO: use TextIO and BinaryIO instead?
+    def save(self, pickle_filepath: str):
+        with open(pickle_filepath, "wb") as pickle_filehandler:
+            pickle.dump(self, pickle_filehandler)
+
+    # Note: not tested
+    @staticmethod
+    def load(pickle_filepath: str) -> "ConsistentPangenomeVariations":
+        with open(pickle_filepath, "rb") as pickle_filehandler:
+            return pickle.load(pickle_filehandler)
