@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Iterable, List
+from typing import Iterable, List, Set
 
 from src.Allele import Allele
 
@@ -55,6 +55,15 @@ class PangenomeVariation:
         all_genomes_have_consistent_alleles = all(genomes_to_have_consistent_alleles.values())
         return all_genomes_have_consistent_alleles
 
+    def get_set_of_samples (self) -> Set[str]:
+        """
+        Return the set of samples this variation has alleles in
+        """
+        set_of_samples = set()
+        for allele in self.alleles:
+            set_of_samples.add(allele.genome)
+        return set_of_samples
+
     # Note: trivial getters, not tested:
     def get_number_of_alleles(self) -> int:
         return len(self.alleles)
@@ -67,6 +76,9 @@ class PangenomeVariation:
 
     def get_allele_sequence_index(self, allele: Allele) -> int:
         return self.unique_allele_sequences.index(allele.sequence)
+
+    def get_number_of_samples(self) -> int:
+        return len(self.get_set_of_samples())
 
     def __repr__(self):
         return str(vars(self))
