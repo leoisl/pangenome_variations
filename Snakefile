@@ -25,7 +25,8 @@ sample_pairs_as_str = [f"{sample1}/{sample1}_and_{sample2}" for sample1, sample2
 # ======================================================
 rule all:
     input:
-        expand(output_folder + "/truth_probesets/{sample_pairs_as_str}.truth_probeset.fa", sample_pairs_as_str=sample_pairs_as_str)
+        expand(output_folder + "/truth_probesets/{sample_pairs_as_str}.truth_probeset.fa", sample_pairs_as_str=sample_pairs_as_str),
+        output_folder + "/stats_csvs/id_and_number_of_samples.csv",
 
 rule make_pairwise_snps_df:
     input:
@@ -148,3 +149,18 @@ rule make_truth_probeset:
        "logs/make_truth_probeset/{sample1}_and_{sample2}.log"
     script:
           "scripts/make_truth_probeset.py"
+
+
+rule make_id_and_number_of_samples_csv:
+    input:
+          consistent_pangenome_variations=rules.convert_pangenome_variations_to_consistent_pangenome_variations.output.consistent_pangenome_variations,
+    output:
+          id_and_number_of_samples_csv=output_folder + "/stats_csvs/id_and_number_of_samples.csv",
+    threads: 1
+    resources:
+             mem_mb=lambda wildcards, attempt: 4000 * attempt
+    log:
+       "logs/make_id_and_number_of_samples_csv.log"
+    script:
+          "scripts/make_id_and_number_of_samples_csv.py"
+
