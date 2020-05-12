@@ -98,9 +98,24 @@ rule deduplicate_pairwise_snps:
           "scripts/deduplicate_pairwise_snps.py"
 
 
-rule convert_pangenome_variations_to_deduplicated_snps_df:
+rule convert_pangenome_variations_to_consistent_pangenome_variations:
     input:
          pangenome_variations_defined_by_allele_ids_filepath=rules.deduplicate_pairwise_snps.output.pangenome_variations_defined_by_allele_ids,
+         allele_mphf_filepath=rules.make_allele_mphf.output.alelle_mphf,
+    output:
+         consistent_pangenome_variations =output_folder + "/deduplicate_pairwise_snps/consistent_pangenome_variations.pickle",
+    threads: 1
+    resources:
+             mem_mb=lambda wildcards, attempt: 16000 * attempt
+    log:
+       "logs/convert_pangenome_variations_to_consistent_pangenome_variations.log"
+    script:
+       "scripts/convert_pangenome_variations_to_consistent_pangenome_variations.py"
+
+
+rule convert_consistent_pangenome_variations_to_deduplicated_snps_df:
+    input:
+         consistent_pangenome_variations=rules.convert_pangenome_variations_to_consistent_pangenome_variations.output.consistent_pangenome_variations,
          allele_mphf_filepath=rules.make_allele_mphf.output.alelle_mphf,
          snps_dfs_filepaths=expand(output_folder + "/snps_dfs/{sample_pair_as_str}.snps_df.pickle",
                                    sample_pair_as_str=sample_pairs_as_str),
@@ -115,9 +130,9 @@ rule convert_pangenome_variations_to_deduplicated_snps_df:
     resources:
              mem_mb=lambda wildcards, attempt: 16000 * attempt
     log:
-       "logs/convert_pangenome_variations_to_deduplicated_snps_df.log"
+       "logs/convert_consistent_pangenome_variations_to_deduplicated_snps_df.log"
     script:
-       "scripts/convert_pangenome_variations_to_deduplicated_snps_df.py"
+       "scripts/convert_consistent_pangenome_variations_to_deduplicated_snps_df.py"
 
 
 rule make_truth_probeset:

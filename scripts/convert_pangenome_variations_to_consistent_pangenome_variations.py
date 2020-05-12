@@ -19,10 +19,7 @@ from src.ConsistentPangenomeVariations import ConsistentPangenomeVariations
 # setup
 allele_mphf_filepath = snakemake.input.allele_mphf_filepath
 pangenome_variations_defined_by_allele_ids_filepath = snakemake.input.pangenome_variations_defined_by_allele_ids_filepath
-snps_dfs_filepaths = snakemake.input.snps_dfs_filepaths
-deduplicated_snps_dfs_filepaths = snakemake.output.deduplicated_snps_dfs_filepaths
-deduplicated_snps_dfs_text_filepaths = snakemake.output.deduplicated_snps_dfs_text_filepaths
-
+consistent_pangenome_variations_filepath = snakemake.output.consistent_pangenome_variations
 
 # API usage
 logging.info("Loading data...")
@@ -41,12 +38,7 @@ logging.info(f"Number of pangenome variations: {consistent_pangenome_variations.
 logging.info(f"Number of consistent pangenome variations: {consistent_pangenome_variations.number_of_consistent_pangenome_variations}")
 logging.info(f"Number of consistent biallelic pangenome variations: {consistent_pangenome_variations.number_of_consistent_biallelic_pangenome_variations}")
 
-logging.info("Saving the deduplicated and enriched variations...")
-for snps_df_filepath, deduplicated_snps_df_filepath, deduplicated_snps_df_text_filepath \
-        in zip(snps_dfs_filepaths, deduplicated_snps_dfs_filepaths, deduplicated_snps_dfs_text_filepaths):
-    deduplicated_snps_df = consistent_pangenome_variations.build_DeduplicatedVariationsDataframe_from_ShowSNPsDataframe(
-        snps_df_filepath, allele_mphf)
-    deduplicated_snps_df.to_pickle(deduplicated_snps_df_filepath)
-    deduplicated_snps_df.to_csv(deduplicated_snps_df_text_filepath, index=False)
+logging.info("Saving the Consistent Biallelic Pangenome Variations...")
+consistent_pangenome_variations.save(consistent_pangenome_variations_filepath)
 
 logging.info("Done")
