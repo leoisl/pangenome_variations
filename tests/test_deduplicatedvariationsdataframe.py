@@ -48,6 +48,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "number_of_different_allele_sequences": 10,
             "ref_allele_sequence_id": 5,
             "query_allele_sequence_id": 8,
+            "nb_of_samples": 7,
         })
         actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
@@ -63,7 +64,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=2,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=5
+                    allele_sequence_id=5,
+                    nb_of_samples=7,
                 ),
                 full_sequence="GTAGTAG"
             ),
@@ -78,7 +80,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=4,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=8
+                    allele_sequence_id=8,
+                    nb_of_samples=7,
                 ),
                 full_sequence="GTATAG"
             )
@@ -105,6 +108,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "number_of_different_allele_sequences": 10,
             "ref_allele_sequence_id": 5,
             "query_allele_sequence_id": 8,
+            "nb_of_samples": 7,
         })
         actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
@@ -120,7 +124,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=2,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=5
+                    allele_sequence_id=5,
+                    nb_of_samples=7,
                 ),
                 full_sequence="GTATAG"
             ),
@@ -135,7 +140,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=4,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=8
+                    allele_sequence_id=8,
+                    nb_of_samples=7,
                 ),
                 full_sequence="GTAGTAG"
             )
@@ -162,6 +168,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "number_of_different_allele_sequences": 10,
             "ref_allele_sequence_id": 5,
             "query_allele_sequence_id": 8,
+            "nb_of_samples": 7,
         })
         actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
@@ -177,7 +184,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=2,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=5
+                    allele_sequence_id=5,
+                    nb_of_samples=7,
                 ),
                 full_sequence="GGATTGA"
             ),
@@ -192,7 +200,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=4,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=8
+                    allele_sequence_id=8,
+                    nb_of_samples=7,
                 ),
                 full_sequence="GGAATGA"
             )
@@ -219,6 +228,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "number_of_different_allele_sequences": 10,
             "ref_allele_sequence_id": 5,
             "query_allele_sequence_id": 8,
+            "nb_of_samples": 7,
         })
         actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
@@ -234,7 +244,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=2,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=5
+                    allele_sequence_id=5,
+                    nb_of_samples=7,
                 ),
                 full_sequence="AGTAG"
             ),
@@ -249,7 +260,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=4,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=8
+                    allele_sequence_id=8,
+                    nb_of_samples=7,
                 ),
                 full_sequence="TATAG"
             )
@@ -276,6 +288,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "number_of_different_allele_sequences": 10,
             "ref_allele_sequence_id": 5,
             "query_allele_sequence_id": 8,
+            "nb_of_samples": 7,
         })
         actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
@@ -291,7 +304,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=2,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=5
+                    allele_sequence_id=5,
+                    nb_of_samples=7,
                 ),
                 full_sequence="AAAGTA"
             ),
@@ -306,7 +320,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=4,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=8
+                    allele_sequence_id=8,
+                    nb_of_samples=7,
                 ),
                 full_sequence="ATAT"
             )
@@ -333,6 +348,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "number_of_different_allele_sequences": 10,
             "ref_allele_sequence_id": 5,
             "query_allele_sequence_id": 8,
+            "nb_of_samples": 7,
         })
         actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
@@ -348,7 +364,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=2,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=5
+                    allele_sequence_id=5,
+                    nb_of_samples=7,
                 ),
                 full_sequence="GTAG"
             ),
@@ -363,7 +380,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=4,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=8
+                    allele_sequence_id=8,
+                    nb_of_samples=7,
                 ),
                 full_sequence="TAG"
             )
@@ -390,6 +408,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "number_of_different_allele_sequences": 10,
             "ref_allele_sequence_id": 5,
             "query_allele_sequence_id": 8,
+            "nb_of_samples": 7,
         })
         actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
@@ -405,7 +424,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=2,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=5
+                    allele_sequence_id=5,
+                    nb_of_samples=7,
                 ),
                 full_sequence="AAAG"
             ),
@@ -420,7 +440,8 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_alleles=5,
                     allele_id=4,
                     number_of_different_allele_sequences=10,
-                    allele_sequence_id=8
+                    allele_sequence_id=8,
+                    nb_of_samples=7,
                 ),
                 full_sequence="AAA"
             )

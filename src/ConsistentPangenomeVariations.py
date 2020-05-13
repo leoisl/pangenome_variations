@@ -109,6 +109,7 @@ class ConsistentPangenomeVariations:
         number_of_different_allele_sequences: int
         ref_allele_sequence_id: int
         query_allele_sequence_id: int
+        nb_of_samples: int
 
         :return the DeduplicatedVariationsDataframe
         """
@@ -122,6 +123,7 @@ class ConsistentPangenomeVariations:
         number_of_different_allele_sequences = [-1] * len(snps_df)
         ref_allele_sequence_id = [-1] * len(snps_df)
         query_allele_sequence_id = [-1] * len(snps_df)
+        nb_of_samples = [-1] * len(snps_df)
 
         for index, pairwise_variation in enumerate(
                 PairwiseVariation.get_PairwiseVariation_from_ShowSNPsDataframe(ref, query, snps_df, allele_mphf)):
@@ -141,6 +143,7 @@ class ConsistentPangenomeVariations:
                     pairwise_variation.original_ref_allele)
                 query_allele_sequence_id[index] = consistent_pangenome_variation.get_allele_sequence_index(
                     pairwise_variation.original_query_allele)
+                nb_of_samples[index] = consistent_pangenome_variation.get_number_of_samples()
 
         deduplicated_snps_df = DeduplicatedVariationsDataframe(snps_df)
         deduplicated_snps_df["ref_genome"] = ref_genome
@@ -154,6 +157,7 @@ class ConsistentPangenomeVariations:
         deduplicated_snps_df["number_of_different_allele_sequences"] = number_of_different_allele_sequences
         deduplicated_snps_df["ref_allele_sequence_id"] = ref_allele_sequence_id
         deduplicated_snps_df["query_allele_sequence_id"] = query_allele_sequence_id
+        deduplicated_snps_df["nb_of_samples"] = nb_of_samples
         return deduplicated_snps_df
 
     def build_DeduplicatedVariationsDataframe_from_ShowSNPsDataframe(self, ShowSNPsDataframe_filepath: str,

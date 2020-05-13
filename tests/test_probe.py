@@ -102,7 +102,7 @@ class TestProbeHeader:
     def test_fromString_allFieldsInStringReturnsProbeHeaderWithAllFields(self):
         string = ">CHROM=1;SAMPLE=CFT073;POS=1;REF_LENGTH=25;INTERVAL=[0,72);SVTYPE=INDEL;MEAN_FWD_COVG=2;MEAN_REV_COVG=3;GT_CONF=10.9922;" \
                  "COVERAGE=13;PANGENOME_VARIATION_ID=42;NUMBER_OF_ALLELES=3;ALLELE_ID=1;" \
-                 "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;"
+                 "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;NB_OF_SAMPLES=7;"
 
         actual = ProbeHeader.from_string(string)
         expected = ProbeHeader(
@@ -119,6 +119,7 @@ class TestProbeHeader:
             allele_id=1,
             number_of_different_allele_sequences=10,
             allele_sequence_id=4,
+            nb_of_samples=7,
         )
 
         assert actual == expected
@@ -182,12 +183,13 @@ class TestProbeHeader:
             allele_id=1,
             number_of_different_allele_sequences=10,
             allele_sequence_id=4,
+            nb_of_samples=7,
         )
 
         actual = str(header)
         expected = ">CHROM=1;SAMPLE=CFT073;POS=1;REF_LENGTH=25;INTERVAL=[0,72);SVTYPE=INDEL;GT_CONF=10.9922;" \
                    "COVERAGE=13;PANGENOME_VARIATION_ID=42;NUMBER_OF_ALLELES=3;ALLELE_ID=1;" \
-                   "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;"
+                   "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;NB_OF_SAMPLES=7;"
 
         assert actual == expected
 

@@ -54,6 +54,7 @@ class ProbeHeader:
             allele_id: int = None,
             number_of_different_allele_sequences: int = None,
             allele_sequence_id: int = None,
+            nb_of_samples: int = None,
     ):
         self.chrom = chrom
         self.sample = sample
@@ -68,6 +69,7 @@ class ProbeHeader:
         self.allele_id = allele_id
         self.number_of_different_allele_sequences = number_of_different_allele_sequences
         self.allele_sequence_id = allele_sequence_id
+        self.nb_of_samples = nb_of_samples
 
     def __eq__(self, other: "ProbeHeader") -> bool:
         return (
@@ -82,6 +84,7 @@ class ProbeHeader:
                 and self.pangenome_variation_id == other.pangenome_variation_id
                 and self.allele_id == other.allele_id
                 and self.allele_sequence_id == other.allele_sequence_id
+                and self.nb_of_samples == other.nb_of_samples
         )
 
     def __str__(self) -> str:
@@ -119,6 +122,7 @@ class ProbeHeader:
         number_of_different_allele_sequences = parse_field_from_header("NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES", string,
                                                                        int, None)
         allele_sequence_id = parse_field_from_header("ALLELE_SEQUENCE_ID", string, int, None)
+        nb_of_samples = parse_field_from_header("NB_OF_SAMPLES", string, int, None)
 
         return ProbeHeader(
             sample=sample,
@@ -134,6 +138,7 @@ class ProbeHeader:
             allele_id=allele_id,
             number_of_different_allele_sequences=number_of_different_allele_sequences,
             allele_sequence_id=allele_sequence_id,
+            nb_of_samples=nb_of_samples
         )
 
 

@@ -148,6 +148,7 @@ class TestConsistentPangenomeVariations(TestCase):
     @patch.object(PangenomeVariation, "get_allele_index", side_effect=[1, 0, 2, 3])
     @patch.object(PangenomeVariation, "get_number_of_different_allele_sequences", side_effect=[2, 3])
     @patch.object(PangenomeVariation, "get_allele_sequence_index", side_effect=[0, 0, 2, 1])
+    @patch.object(PangenomeVariation, "get_number_of_samples", side_effect=[10, 15])
     @patch.object(ConsistentPangenomeVariations, "get_consistent_pangenome_variation",
                   side_effect=[None, PangenomeVariation(0, []), PangenomeVariation(1, []), None])
     @patch.object(PairwiseVariation, PairwiseVariation.get_PairwiseVariation_from_ShowSNPsDataframe.__name__,
@@ -166,11 +167,11 @@ class TestConsistentPangenomeVariations(TestCase):
                                                                                                  snps_df, dummy_allele_mphf)
 
         expected = DeduplicatedVariationsDataframe(pd.read_csv(StringIO(
-            """dummy,ref_genome,query_genome,present_in_a_consistent_pangenome_variation,pangenome_variation_id,number_of_alleles,ref_allele_id,query_allele_id,number_of_different_allele_sequences,ref_allele_sequence_id,query_allele_sequence_id
-            0,ref,query,False,-1,-1,-1,-1,-1,-1,-1
-            1,ref,query,True,0,2,1,0,2,0,0
-            2,ref,query,True,1,4,2,3,3,2,1
-            3,ref,query,False,-1,-1,-1,-1,-1,-1,-1
+            """dummy,ref_genome,query_genome,present_in_a_consistent_pangenome_variation,pangenome_variation_id,number_of_alleles,ref_allele_id,query_allele_id,number_of_different_allele_sequences,ref_allele_sequence_id,query_allele_sequence_id,nb_of_samples
+            0,ref,query,False,-1,-1,-1,-1,-1,-1,-1,-1
+            1,ref,query,True,0,2,1,0,2,0,0,10
+            2,ref,query,True,1,4,2,3,3,2,1,15
+            3,ref,query,False,-1,-1,-1,-1,-1,-1,-1,-1
             """
         )))
 
