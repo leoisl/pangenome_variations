@@ -20,3 +20,6 @@ sample_data/
 *.sa
 *.tbi
 *.vcf.gz
+eda/plot_pangenome_variants_vs_samples/\.ipynb_checkpoints/
+
+eda/plot_pangenome_variants_vs_samples/id_and_number_of_samples\.csv
