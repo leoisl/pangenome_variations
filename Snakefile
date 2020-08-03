@@ -33,10 +33,9 @@ rule make_pairwise_snps_df:
          truth1=lambda wildcards: samples.xs(wildcards.sample1)["reference_assembly"],
          truth2=lambda wildcards: samples.xs(wildcards.sample2)["reference_assembly"],
     output:
+          varifier_vcf=output_folder + "/snps_dfs/{sample1}/{sample1}_and_{sample2}.vcf",
           snps_df=output_folder + "/snps_dfs/{sample1}/{sample1}_and_{sample2}.snps_df.pickle",
           snps_df_text=output_folder + "/snps_dfs/{sample1}/{sample1}_and_{sample2}.snps_df.csv",
-          aligned_bases_percentage_sample_1=output_folder + "/dnadiff_reports/{sample1}/{sample1}_and_{sample2}.aligned_bases_percentage",
-          aligned_bases_percentage_sample_2=output_folder + "/dnadiff_reports/{sample2}/{sample1}_and_{sample2}.aligned_bases_percentage"
     params:
           flank_length=flank_length
     shadow:
@@ -46,6 +45,8 @@ rule make_pairwise_snps_df:
              mem_mb=lambda wildcards, attempt: 4000 * attempt
     log:
           "logs/make_pairwise_snps_df/{sample1}_and_{sample2}.log"
+    singularity:
+        "docker://leandroishilima/varifier"
     script:
           "scripts/make_pairwise_snps_df.py"
 
