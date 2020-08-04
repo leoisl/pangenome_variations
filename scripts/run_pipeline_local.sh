@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -eux
 
-# CORES=112
-CORES=8
+CORES=112
 LOG_DIR=logs/
 
 mkdir -p "$LOG_DIR"
