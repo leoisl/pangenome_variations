@@ -87,7 +87,8 @@ class VarifierDataframe(pd.DataFrame):
                     ref_len.append(VarifierDataframe.parse_field_from_info(info, "LENGTH_REF", int))
                     query_chrom.append(VarifierDataframe.parse_field_from_info(info, "QNAME"))
                     query_pos.append(VarifierDataframe.parse_field_from_info(info, "QSTART", int))
-                    query_strand.append(VarifierDataframe.parse_field_from_info(info, "QSTRAND"))
+                    binary_query_strand = 1 if VarifierDataframe.parse_field_from_info(info, "QSTRAND") == "+" else -1
+                    query_strand.append(binary_query_strand)
 
                     sample_data = line_split[9].split(":")
                     ref_probe.append(sample_data[2])
