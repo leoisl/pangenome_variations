@@ -31,7 +31,7 @@ snps_df_text_filepath = snakemake.output.snps_df_text
 
 # API usage
 logging.info("Generating varifier snps")
-shell(f"varifier make_truth_vcf --snps_only --output_probes_in_VCF --detailed_VCF --flank_length {flank_length} {query2} {query1} {prefix}_varifier_output")
+shell(f"varifier make_truth_vcf --snps_only --output_probes_in_VCF --detailed_VCF --flank_length {flank_length} {query2} {query1} {prefix}_varifier_output >>{snakemake.log} 2>&1")
 shell(f"cp {prefix}_varifier_output/04.truth.vcf {varifier_vcf}")
 
 logging.info("Converting varifier VCF to dataframe")
