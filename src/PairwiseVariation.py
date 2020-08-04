@@ -3,7 +3,7 @@ from typing import Generator
 
 from src.Allele import Allele
 from src.AlleleMPHF import AlleleMPHF
-from src.mummer import ShowSNPsDataframe
+from src.VarifierDataframe import VarifierDataframe
 
 
 class AlleleMPHFNotSetException(Exception):
@@ -95,10 +95,10 @@ class PairwiseVariation:
                self.allele_2_id == other.allele_1_id or self.allele_2_id == other.allele_2_id
 
     @staticmethod
-    def get_PairwiseVariation_from_ShowSNPsDataframe(ref: str, query: str, snps_df: ShowSNPsDataframe,
+    def get_PairwiseVariation_from_VarifierDataframe(ref: str, query: str, snps_df: VarifierDataframe,
                                                      allele_mphf: AlleleMPHF) -> Generator[
         "PairwiseVariation", None, None]:
-        for ref_allele, query_allele in Allele.get_alleles_from_ShowSNPsDataframe(ref, query, snps_df):
+        for ref_allele, query_allele in Allele.get_alleles_from_VarifierDataframe(ref, query, snps_df):
             ref_allele_id = allele_mphf.get_id(ref_allele)
             query_allele_id = allele_mphf.get_id(query_allele)
             yield PairwiseVariation(ref_allele_id, query_allele_id, allele_mphf)
