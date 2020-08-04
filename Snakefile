@@ -11,6 +11,7 @@ configfile: "config.yaml"
 output_folder = config['output_folder']
 samples_file = config["samples"]
 flank_length = config["flank_length"]
+varifier_image = config["varifier_image"]
 
 samples = pd.read_csv(samples_file)
 samples.rename(columns={"reference": "reference_assembly"}, inplace=True)
@@ -45,8 +46,7 @@ rule make_pairwise_snps_df:
              mem_mb=lambda wildcards, attempt: 4000 * attempt
     log:
           "logs/make_pairwise_snps_df/{sample1}_and_{sample2}.log"
-    singularity:
-        "docker://leandroishilima/varifier"
+    singularity: varifier_image
     script:
           "scripts/make_pairwise_snps_df.py"
 

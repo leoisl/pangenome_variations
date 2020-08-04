@@ -57,6 +57,7 @@ class VarifierDataframe(pd.DataFrame):
         ref_allele = []
         ref_strand = []
         ref_probe = []
+        ref_probe_interval = []
         ref_len = []
 
         query_chrom = []
@@ -64,6 +65,7 @@ class VarifierDataframe(pd.DataFrame):
         query_allele = []
         query_strand = []
         query_probe = []
+        query_probe_interval = []
         query_len = []
 
         with open(vcf_filepath) as vcf_filehandler:
@@ -89,7 +91,9 @@ class VarifierDataframe(pd.DataFrame):
 
                     sample_data = line_split[9].split(":")
                     ref_probe.append(sample_data[2])
-                    query_probe.append(sample_data[3])
+                    ref_probe_interval.append(sample_data[3])
+                    query_probe.append(sample_data[4])
+                    query_probe_interval.append(sample_data[5])
 
         varifier_df = VarifierDataframe(data={
             "ref_chrom": ref_chrom,
@@ -97,12 +101,14 @@ class VarifierDataframe(pd.DataFrame):
             "ref_allele": ref_allele,
             "ref_strand": ref_strand,
             "ref_probe": ref_probe,
+            "ref_probe_interval": ref_probe_interval,
             "ref_len": ref_len,
             "query_chrom": query_chrom,
             "query_pos": query_pos,
             "query_allele": query_allele,
             "query_strand": query_strand,
             "query_probe": query_probe,
+            "query_probe_interval": query_probe_interval,
             "query_len": query_len,
         })
 

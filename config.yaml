@@ -1,3 +1,4 @@
-output_folder: analysis_output
-samples:       metadata/samples.csv
-flank_length:  100
+output_folder:  analysis_output
+samples:        metadata/samples.csv
+flank_length:   100
+varifier_image: docker://leandroishilima/varifier:9d72e0
