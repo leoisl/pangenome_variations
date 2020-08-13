@@ -9,7 +9,7 @@ from src.DeduplicatedVariationsDataframe import DeduplicatedVariationsDataframe
 from src.PangenomeVariations import PangenomeVariations
 from src.PangenomeVariation import PangenomeVariation
 from src.PairwiseVariation import PairwiseVariation
-from src.mummer import ShowSNPsDataframe
+from src.VarifierDataframe import VarifierDataframe
 from src.AlleleMPHF import AlleleMPHF
 
 
@@ -151,7 +151,7 @@ class TestConsistentPangenomeVariations(TestCase):
     @patch.object(PangenomeVariation, "get_number_of_samples", side_effect=[10, 15])
     @patch.object(ConsistentPangenomeVariations, "get_consistent_pangenome_variation",
                   side_effect=[None, PangenomeVariation(0, []), PangenomeVariation(1, []), None])
-    @patch.object(PairwiseVariation, PairwiseVariation.get_PairwiseVariation_from_ShowSNPsDataframe.__name__,
+    @patch.object(PairwiseVariation, PairwiseVariation.get_PairwiseVariation_from_VarifierDataframe.__name__,
                   return_value=[Mock(), Mock(), Mock(), Mock()])
     def test____get_DeduplicatedVariationsDataframe(self, *mocks):
         snps_df = pd.read_csv(StringIO(
@@ -177,14 +177,14 @@ class TestConsistentPangenomeVariations(TestCase):
 
         self.assertTrue(actual.equals(expected))
 
-    @patch.object(ShowSNPsDataframe,
-                  ShowSNPsDataframe.get_ref_and_query_from_ShowSNPsDataframe_filepath.__name__,
+    @patch.object(VarifierDataframe,
+                  VarifierDataframe.get_ref_and_query_from_VarifierDataframe_filepath.__name__,
                   return_value=(None, None))
-    @patch.object(ShowSNPsDataframe, ShowSNPsDataframe.load_pickled.__name__)
+    @patch.object(VarifierDataframe, VarifierDataframe.load_pickled.__name__)
     @patch.object(ConsistentPangenomeVariations,
                   ConsistentPangenomeVariations._get_DeduplicatedVariationsDataframe.__name__)
-    def test___build_DeduplicatedVariationsDataframe_from_ShowSNPsDataframe(self, _enrich_ShowSNPsDataframe_mock, *other_mocks):
-        _enrich_ShowSNPsDataframe_mock.return_value = pd.read_csv(StringIO(
+    def test___build_DeduplicatedVariationsDataframe_from_VarifierDataframe(self, _enrich_VarifierDataframe_mock, *other_mocks):
+        _enrich_VarifierDataframe_mock.return_value = pd.read_csv(StringIO(
             """dummy,ref_genome,query_genome,present_in_a_consistent_pangenome_variation,pangenome_variation_id,number_of_alleles,ref_allele_id,query_allele_id,number_of_different_allele_sequences,ref_allele_sequence_id,query_allele_sequence_id
             0,ref,query,False,-1,-1,-1,-1,-1,-1,-1
             1,ref,query,True,0,2,1,0,2,0,0
@@ -194,7 +194,7 @@ class TestConsistentPangenomeVariations(TestCase):
         ))
         dummy_allele_mphf = AlleleMPHF()
 
-        actual = self.dummy_consistent_pangenome_variations.build_DeduplicatedVariationsDataframe_from_ShowSNPsDataframe(
+        actual = self.dummy_consistent_pangenome_variations.build_DeduplicatedVariationsDataframe_from_VarifierDataframe(
             "dummy", dummy_allele_mphf)
         expected = DeduplicatedVariationsDataframe(pd.read_csv(StringIO(
             """dummy,ref_genome,query_genome,present_in_a_consistent_pangenome_variation,pangenome_variation_id,number_of_alleles,ref_allele_id,query_allele_id,number_of_different_allele_sequences,ref_allele_sequence_id,query_allele_sequence_id

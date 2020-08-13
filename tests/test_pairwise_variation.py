@@ -143,12 +143,12 @@ class TestPairwiseVariation(TestCase):
             pairwise_variation.check_allele_mphf()
 
 
-    @patch.object(Allele, Allele.get_alleles_from_ShowSNPsDataframe.__name__, return_value=[
+    @patch.object(Allele, Allele.get_alleles_from_VarifierDataframe.__name__, return_value=[
         ("ref_allele_1", "query_allele_1"),
         ("ref_allele_2", "query_allele_2"),
         ("ref_allele_3", "query_allele_3"),
     ])
-    def test___get_PairwiseVariation_from_ShowSNPsDataframe(self, *mocks):
+    def test___get_PairwiseVariation_from_VarifierDataframe(self, *mocks):
         allele_mphf = AlleleMPHF()
         allele_mphf.add_object("ref_allele_1")
         allele_mphf.add_object("query_allele_1")
@@ -157,7 +157,7 @@ class TestPairwiseVariation(TestCase):
         allele_mphf.add_object("ref_allele_3")
         allele_mphf.add_object("query_allele_3")
 
-        actual_pairwise_variations = list(PairwiseVariation.get_PairwiseVariation_from_ShowSNPsDataframe("ref", "query",
+        actual_pairwise_variations = list(PairwiseVariation.get_PairwiseVariation_from_VarifierDataframe("ref", "query",
                                                                                                     None, allele_mphf))
         expected_pairwise_variations = [
             PairwiseVariation(0, 1),
