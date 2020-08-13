@@ -8,7 +8,7 @@ from src.DeduplicatedVariationsDataframe import DeduplicatedVariationsDataframe
 from src.PairwiseVariation import PairwiseVariation
 from src.PangenomeVariation import PangenomeVariation
 from src.PangenomeVariations import PangenomeVariations
-from src.mummer import ShowSNPsDataframe
+from src.VarifierDataframe import VarifierDataframe
 
 
 class InconsistentPangenomeVariations(Exception):
@@ -92,10 +92,10 @@ class ConsistentPangenomeVariations:
 
         return pangenome_variation_of_allele_1
 
-    def _get_DeduplicatedVariationsDataframe(self, ref: str, query: str, snps_df: ShowSNPsDataframe,
+    def _get_DeduplicatedVariationsDataframe(self, ref: str, query: str, snps_df: VarifierDataframe,
                                              allele_mphf: AlleleMPHF) -> DeduplicatedVariationsDataframe:
         """
-        Builds a DeduplicatedVariationsDataframe from a ShowSNPsDataframe with info computed from the ConsistentPangenomeVariations.
+        Builds a DeduplicatedVariationsDataframe from a VarifierDataframe with info computed from the ConsistentPangenomeVariations.
         ** WARNING: this also modifies snps_df parameter, we dont want to make a copy**
 
         Adds the following columns to snps_df:
@@ -126,7 +126,7 @@ class ConsistentPangenomeVariations:
         nb_of_samples = [-1] * len(snps_df)
 
         for index, pairwise_variation in enumerate(
-                PairwiseVariation.get_PairwiseVariation_from_ShowSNPsDataframe(ref, query, snps_df, allele_mphf)):
+                PairwiseVariation.get_PairwiseVariation_from_VarifierDataframe(ref, query, snps_df, allele_mphf)):
             consistent_pangenome_variation = self.get_consistent_pangenome_variation(pairwise_variation)
             is_present = consistent_pangenome_variation is not None
             if is_present:
@@ -160,14 +160,14 @@ class ConsistentPangenomeVariations:
         deduplicated_snps_df["nb_of_samples"] = nb_of_samples
         return deduplicated_snps_df
 
-    def build_DeduplicatedVariationsDataframe_from_ShowSNPsDataframe(self, ShowSNPsDataframe_filepath: str,
+    def build_DeduplicatedVariationsDataframe_from_VarifierDataframe(self, VarifierDataframe_filepath: str,
                                                                      allele_mphf: AlleleMPHF) -> DeduplicatedVariationsDataframe:
         """
-        Loads a ShowSNPsDataframe, add all the relevant information about Consistent Pangenome Variations into it,
+        Loads a VarifierDataframe, add all the relevant information about Consistent Pangenome Variations into it,
         builds the DeduplicatedVariationsDataframe, and filter out variations that are not in a Consistent Pangenome Variation
         """
-        ref, query = ShowSNPsDataframe.get_ref_and_query_from_ShowSNPsDataframe_filepath(ShowSNPsDataframe_filepath)
-        snps_df = ShowSNPsDataframe.load_pickled(ShowSNPsDataframe_filepath)
+        ref, query = VarifierDataframe.get_ref_and_query_from_VarifierDataframe_filepath(VarifierDataframe_filepath)
+        snps_df = VarifierDataframe.load_pickled(VarifierDataframe_filepath)
         deduplicated_snps_df = self._get_DeduplicatedVariationsDataframe(ref, query, snps_df, allele_mphf)
         filtered_snps_df = deduplicated_snps_df[
             deduplicated_snps_df.present_in_a_consistent_pangenome_variation == True]

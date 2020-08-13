@@ -15,7 +15,7 @@ class TestDeduplicatedVariationsDataframe(TestCase):
 
     def test___get_probes___invalid_dataframe_raises_error(self):
         df = DeduplicatedVariationsDataframe(
-            {"ref_pos": [39, 73], "ref_sub": ["G", "T"], "query_len": [84, 84]}
+            {"ref_pos": [39, 73], "ref_allele": ["G", "T"], "query_len": [84, 84]}
         )
 
         with self.assertRaises(KeyError):
@@ -29,134 +29,16 @@ class TestDeduplicatedVariationsDataframe(TestCase):
         expected = ("a\nc\ne", "b\nd\nf")
         self.assertEqual(actual, expected)
 
-    def test____get_ref_and_query_probe___nucmer_line_1(self):
+    def test____get_ref_and_query_probe___SNP(self):
         row = pd.Series(data={
             "ref_genome": "ref_sample",
             "query_genome": "query_sample",
-            "ref_sub": "G",
-            "query_sub": ".",
-            "ref_context": "GTAGTAG",
-            "query_context": "GTA.TAG",
-            "ref_chrom": "1",
-            "query_chrom": "1",
-            "ref_pos": 39,
-            "query_pos": 38,
-            "pangenome_variation_id": 42,
-            "number_of_alleles": 5,
-            "ref_allele_id": 2,
-            "query_allele_id": 4,
-            "number_of_different_allele_sequences": 10,
-            "ref_allele_sequence_id": 5,
-            "query_allele_sequence_id": 8,
-            "nb_of_samples": 7,
-        })
-        actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
-
-        expected = (
-            Probe(
-                header=ProbeHeader(
-                    sample="ref_sample",
-                    chrom="1",
-                    pos=39,
-                    ref_length=1,
-                    interval=ProbeInterval(3, 4),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=2,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=5,
-                    nb_of_samples=7,
-                ),
-                full_sequence="GTAGTAG"
-            ),
-            Probe(
-                header=ProbeHeader(
-                    sample="query_sample",
-                    chrom="1",
-                    pos=38,
-                    ref_length=0,
-                    interval=ProbeInterval(3, 3),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=4,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=8,
-                    nb_of_samples=7,
-                ),
-                full_sequence="GTATAG"
-            )
-        )
-
-        self.assertEqual(actual, expected)
-
-    def test____get_ref_and_query_probe___nucmer_line_1_inverted(self):
-        row = pd.Series(data={
-            "ref_genome": "ref_sample",
-            "query_genome": "query_sample",
-            "query_sub": "G",
-            "ref_sub": ".",
-            "query_context": "GTAGTAG",
-            "ref_context": "GTA.TAG",
-            "ref_chrom": "1",
-            "query_chrom": "1",
-            "ref_pos": 39,
-            "query_pos": 38,
-            "pangenome_variation_id": 42,
-            "number_of_alleles": 5,
-            "ref_allele_id": 2,
-            "query_allele_id": 4,
-            "number_of_different_allele_sequences": 10,
-            "ref_allele_sequence_id": 5,
-            "query_allele_sequence_id": 8,
-            "nb_of_samples": 7,
-        })
-        actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
-
-        expected = (
-            Probe(
-                header=ProbeHeader(
-                    sample="ref_sample",
-                    chrom="1",
-                    pos=39,
-                    ref_length=0,
-                    interval=ProbeInterval(3, 3),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=2,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=5,
-                    nb_of_samples=7,
-                ),
-                full_sequence="GTATAG"
-            ),
-            Probe(
-                header=ProbeHeader(
-                    sample="query_sample",
-                    chrom="1",
-                    pos=38,
-                    ref_length=1,
-                    interval=ProbeInterval(3, 4),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=4,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=8,
-                    nb_of_samples=7,
-                ),
-                full_sequence="GTAGTAG"
-            )
-        )
-
-        self.assertEqual(actual, expected)
-
-    def test____get_ref_and_query_probe___nucmer_line_2(self):
-        row = pd.Series(data={
-            "ref_genome": "ref_sample",
-            "query_genome": "query_sample",
-            "ref_sub": "T",
-            "query_sub": "A",
-            "ref_context": "GGATTGA",
-            "query_context": "GGAATGA",
+            "ref_allele": "T",
+            "query_allele": "A",
+            "ref_probe": "GGATTGA",
+            "query_probe": "GGAATGA",
+            "ref_probe_interval": "[3,4)",
+            "query_probe_interval": "[3,4)",
             "ref_chrom": "1",
             "query_chrom": "1",
             "ref_pos": 73,
@@ -209,245 +91,375 @@ class TestDeduplicatedVariationsDataframe(TestCase):
 
         self.assertEqual(actual, expected)
 
-    def test____get_ref_and_query_probe___nucmer_line_probe_near_gene_start_truncated_left_flank(self):
-        row = pd.Series(data={
-            "ref_genome": "ref_sample",
-            "query_genome": "query_sample",
-            "ref_sub": "G",
-            "query_sub": ".",
-            "ref_context": "--AGTAG",
-            "query_context": "-TA.TAG",
-            "ref_chrom": "1",
-            "query_chrom": "1",
-            "ref_pos": 1,
-            "query_pos": 1,
-            "pangenome_variation_id": 42,
-            "number_of_alleles": 5,
-            "ref_allele_id": 2,
-            "query_allele_id": 4,
-            "number_of_different_allele_sequences": 10,
-            "ref_allele_sequence_id": 5,
-            "query_allele_sequence_id": 8,
-            "nb_of_samples": 7,
-        })
-        actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
-        expected = (
-            Probe(
-                header=ProbeHeader(
-                    sample="ref_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=1,
-                    interval=ProbeInterval(1, 2),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=2,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=5,
-                    nb_of_samples=7,
-                ),
-                full_sequence="AGTAG"
-            ),
-            Probe(
-                header=ProbeHeader(
-                    sample="query_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=0,
-                    interval=ProbeInterval(2, 2),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=4,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=8,
-                    nb_of_samples=7,
-                ),
-                full_sequence="TATAG"
-            )
-        )
 
-        self.assertEqual(actual, expected)
 
-    def test____get_ref_and_query_probe___nucmer_line_probe_near_gene_end_truncated_right_flank(self):
-        row = pd.Series(data={
-            "ref_genome": "ref_sample",
-            "query_genome": "query_sample",
-            "ref_sub": "G",
-            "query_sub": ".",
-            "ref_context": "AAAGTA-",
-            "query_context": "ATA.T--",
-            "ref_chrom": "1",
-            "query_chrom": "1",
-            "ref_pos": 1,
-            "query_pos": 1,
-            "pangenome_variation_id": 42,
-            "number_of_alleles": 5,
-            "ref_allele_id": 2,
-            "query_allele_id": 4,
-            "number_of_different_allele_sequences": 10,
-            "ref_allele_sequence_id": 5,
-            "query_allele_sequence_id": 8,
-            "nb_of_samples": 7,
-        })
-        actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
 
-        expected = (
-            Probe(
-                header=ProbeHeader(
-                    sample="ref_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=1,
-                    interval=ProbeInterval(3, 4),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=2,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=5,
-                    nb_of_samples=7,
-                ),
-                full_sequence="AAAGTA"
-            ),
-            Probe(
-                header=ProbeHeader(
-                    sample="query_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=0,
-                    interval=ProbeInterval(3, 3),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=4,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=8,
-                    nb_of_samples=7,
-                ),
-                full_sequence="ATAT"
-            )
-        )
 
-        self.assertEqual(actual, expected)
 
-    def test____get_ref_and_query_probe___nucmer_line_probe_at_gene_start_truncated_left_flank(self):
-        row = pd.Series(data={
-            "ref_genome": "ref_sample",
-            "query_genome": "query_sample",
-            "ref_sub": "G",
-            "query_sub": ".",
-            "ref_context": "---GTAG",
-            "query_context": "---.TAG",
-            "ref_chrom": "1",
-            "query_chrom": "1",
-            "ref_pos": 1,
-            "query_pos": 1,
-            "pangenome_variation_id": 42,
-            "number_of_alleles": 5,
-            "ref_allele_id": 2,
-            "query_allele_id": 4,
-            "number_of_different_allele_sequences": 10,
-            "ref_allele_sequence_id": 5,
-            "query_allele_sequence_id": 8,
-            "nb_of_samples": 7,
-        })
-        actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
+    # these are indels, no need to be tested, but let's keep them here as they are possibly needed later
+    # def test____get_ref_and_query_probe___indel(self):
+    #     row = pd.Series(data={
+    #         "ref_genome": "ref_sample",
+    #         "query_genome": "query_sample",
+    #         "ref_allele": "G",
+    #         "query_allele": ".",
+    #         "ref_context": "GTAGTAG",
+    #         "query_context": "GTA.TAG",
+    #         "ref_chrom": "1",
+    #         "query_chrom": "1",
+    #         "ref_pos": 39,
+    #         "query_pos": 38,
+    #         "pangenome_variation_id": 42,
+    #         "number_of_alleles": 5,
+    #         "ref_allele_id": 2,
+    #         "query_allele_id": 4,
+    #         "number_of_different_allele_sequences": 10,
+    #         "ref_allele_sequence_id": 5,
+    #         "query_allele_sequence_id": 8,
+    #         "nb_of_samples": 7,
+    #     })
+    #     actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
+    #
+    #     expected = (
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="ref_sample",
+    #                 chrom="1",
+    #                 pos=39,
+    #                 ref_length=1,
+    #                 interval=ProbeInterval(3, 4),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=2,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=5,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="GTAGTAG"
+    #         ),
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="query_sample",
+    #                 chrom="1",
+    #                 pos=38,
+    #                 ref_length=0,
+    #                 interval=ProbeInterval(3, 3),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=4,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=8,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="GTATAG"
+    #         )
+    #     )
+    #
+    #     self.assertEqual(actual, expected)
+    #
+    # def test____get_ref_and_query_probe___indel_inverted(self):
+    #     row = pd.Series(data={
+    #         "ref_genome": "ref_sample",
+    #         "query_genome": "query_sample",
+    #         "query_allele": "G",
+    #         "ref_allele": ".",
+    #         "query_context": "GTAGTAG",
+    #         "ref_context": "GTA.TAG",
+    #         "ref_chrom": "1",
+    #         "query_chrom": "1",
+    #         "ref_pos": 39,
+    #         "query_pos": 38,
+    #         "pangenome_variation_id": 42,
+    #         "number_of_alleles": 5,
+    #         "ref_allele_id": 2,
+    #         "query_allele_id": 4,
+    #         "number_of_different_allele_sequences": 10,
+    #         "ref_allele_sequence_id": 5,
+    #         "query_allele_sequence_id": 8,
+    #         "nb_of_samples": 7,
+    #     })
+    #     actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
+    #
+    #     expected = (
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="ref_sample",
+    #                 chrom="1",
+    #                 pos=39,
+    #                 ref_length=0,
+    #                 interval=ProbeInterval(3, 3),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=2,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=5,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="GTATAG"
+    #         ),
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="query_sample",
+    #                 chrom="1",
+    #                 pos=38,
+    #                 ref_length=1,
+    #                 interval=ProbeInterval(3, 4),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=4,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=8,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="GTAGTAG"
+    #         )
+    #     )
+    #
+    #     self.assertEqual(actual, expected)
+    #
+    # def test____get_ref_and_query_probe___indel_near_gene_start_truncated_left_flank(self):
+    #     row = pd.Series(data={
+    #         "ref_genome": "ref_sample",
+    #         "query_genome": "query_sample",
+    #         "ref_allele": "G",
+    #         "query_allele": ".",
+    #         "ref_context": "--AGTAG",
+    #         "query_context": "-TA.TAG",
+    #         "ref_chrom": "1",
+    #         "query_chrom": "1",
+    #         "ref_pos": 1,
+    #         "query_pos": 1,
+    #         "pangenome_variation_id": 42,
+    #         "number_of_alleles": 5,
+    #         "ref_allele_id": 2,
+    #         "query_allele_id": 4,
+    #         "number_of_different_allele_sequences": 10,
+    #         "ref_allele_sequence_id": 5,
+    #         "query_allele_sequence_id": 8,
+    #         "nb_of_samples": 7,
+    #     })
+    #     actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
+    #
+    #     expected = (
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="ref_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=1,
+    #                 interval=ProbeInterval(1, 2),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=2,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=5,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="AGTAG"
+    #         ),
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="query_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=0,
+    #                 interval=ProbeInterval(2, 2),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=4,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=8,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="TATAG"
+    #         )
+    #     )
+    #
+    #     self.assertEqual(actual, expected)
 
-        expected = (
-            Probe(
-                header=ProbeHeader(
-                    sample="ref_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=1,
-                    interval=ProbeInterval(0, 1),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=2,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=5,
-                    nb_of_samples=7,
-                ),
-                full_sequence="GTAG"
-            ),
-            Probe(
-                header=ProbeHeader(
-                    sample="query_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=0,
-                    interval=ProbeInterval(0, 0),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=4,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=8,
-                    nb_of_samples=7,
-                ),
-                full_sequence="TAG"
-            )
-        )
+    # this is an indel, no need to test
+    # def test____get_ref_and_query_probe___indel_near_gene_end_truncated_right_flank(self):
+    #     row = pd.Series(data={
+    #         "ref_genome": "ref_sample",
+    #         "query_genome": "query_sample",
+    #         "ref_allele": "G",
+    #         "query_allele": ".",
+    #         "ref_context": "AAAGTA-",
+    #         "query_context": "ATA.T--",
+    #         "ref_chrom": "1",
+    #         "query_chrom": "1",
+    #         "ref_pos": 1,
+    #         "query_pos": 1,
+    #         "pangenome_variation_id": 42,
+    #         "number_of_alleles": 5,
+    #         "ref_allele_id": 2,
+    #         "query_allele_id": 4,
+    #         "number_of_different_allele_sequences": 10,
+    #         "ref_allele_sequence_id": 5,
+    #         "query_allele_sequence_id": 8,
+    #         "nb_of_samples": 7,
+    #     })
+    #     actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
+    #
+    #     expected = (
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="ref_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=1,
+    #                 interval=ProbeInterval(3, 4),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=2,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=5,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="AAAGTA"
+    #         ),
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="query_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=0,
+    #                 interval=ProbeInterval(3, 3),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=4,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=8,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="ATAT"
+    #         )
+    #     )
+    #
+    #     self.assertEqual(actual, expected)
 
-        self.assertEqual(actual, expected)
+    # this is an indel, no need to test
+    # def test____get_ref_and_query_probe___indel_at_gene_start_truncated_left_flank(self):
+    #     row = pd.Series(data={
+    #         "ref_genome": "ref_sample",
+    #         "query_genome": "query_sample",
+    #         "ref_allele": "G",
+    #         "query_allele": ".",
+    #         "ref_context": "---GTAG",
+    #         "query_context": "---.TAG",
+    #         "ref_chrom": "1",
+    #         "query_chrom": "1",
+    #         "ref_pos": 1,
+    #         "query_pos": 1,
+    #         "pangenome_variation_id": 42,
+    #         "number_of_alleles": 5,
+    #         "ref_allele_id": 2,
+    #         "query_allele_id": 4,
+    #         "number_of_different_allele_sequences": 10,
+    #         "ref_allele_sequence_id": 5,
+    #         "query_allele_sequence_id": 8,
+    #         "nb_of_samples": 7,
+    #     })
+    #     actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
+    #
+    #     expected = (
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="ref_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=1,
+    #                 interval=ProbeInterval(0, 1),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=2,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=5,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="GTAG"
+    #         ),
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="query_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=0,
+    #                 interval=ProbeInterval(0, 0),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=4,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=8,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="TAG"
+    #         )
+    #     )
+    #
+    #     self.assertEqual(actual, expected)
 
-    def test____get_ref_and_query_probe___nucmer_line_probe_at_gene_end_truncated_right_flank(self):
-        row = pd.Series(data={
-            "ref_genome": "ref_sample",
-            "query_genome": "query_sample",
-            "ref_sub": "G",
-            "query_sub": ".",
-            "ref_context": "AAAG---",
-            "query_context": "AAA.---",
-            "ref_chrom": "1",
-            "query_chrom": "1",
-            "ref_pos": 1,
-            "query_pos": 1,
-            "pangenome_variation_id": 42,
-            "number_of_alleles": 5,
-            "ref_allele_id": 2,
-            "query_allele_id": 4,
-            "number_of_different_allele_sequences": 10,
-            "ref_allele_sequence_id": 5,
-            "query_allele_sequence_id": 8,
-            "nb_of_samples": 7,
-        })
-        actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
-
-        expected = (
-            Probe(
-                header=ProbeHeader(
-                    sample="ref_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=1,
-                    interval=ProbeInterval(3, 4),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=2,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=5,
-                    nb_of_samples=7,
-                ),
-                full_sequence="AAAG"
-            ),
-            Probe(
-                header=ProbeHeader(
-                    sample="query_sample",
-                    chrom="1",
-                    pos=1,
-                    ref_length=0,
-                    interval=ProbeInterval(3, 3),
-                    pangenome_variation_id=42,
-                    number_of_alleles=5,
-                    allele_id=4,
-                    number_of_different_allele_sequences=10,
-                    allele_sequence_id=8,
-                    nb_of_samples=7,
-                ),
-                full_sequence="AAA"
-            )
-        )
-
-        self.assertEqual(actual, expected)
+    # this is an indel, no need to test
+    # def test____get_ref_and_query_probe___indel_at_gene_end_truncated_right_flank(self):
+    #     row = pd.Series(data={
+    #         "ref_genome": "ref_sample",
+    #         "query_genome": "query_sample",
+    #         "ref_allele": "G",
+    #         "query_allele": ".",
+    #         "ref_context": "AAAG---",
+    #         "query_context": "AAA.---",
+    #         "ref_chrom": "1",
+    #         "query_chrom": "1",
+    #         "ref_pos": 1,
+    #         "query_pos": 1,
+    #         "pangenome_variation_id": 42,
+    #         "number_of_alleles": 5,
+    #         "ref_allele_id": 2,
+    #         "query_allele_id": 4,
+    #         "number_of_different_allele_sequences": 10,
+    #         "ref_allele_sequence_id": 5,
+    #         "query_allele_sequence_id": 8,
+    #         "nb_of_samples": 7,
+    #     })
+    #     actual = DeduplicatedVariationsDataframe._get_ref_and_query_probe(row)
+    #
+    #     expected = (
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="ref_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=1,
+    #                 interval=ProbeInterval(3, 4),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=2,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=5,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="AAAG"
+    #         ),
+    #         Probe(
+    #             header=ProbeHeader(
+    #                 sample="query_sample",
+    #                 chrom="1",
+    #                 pos=1,
+    #                 ref_length=0,
+    #                 interval=ProbeInterval(3, 3),
+    #                 pangenome_variation_id=42,
+    #                 number_of_alleles=5,
+    #                 allele_id=4,
+    #                 number_of_different_allele_sequences=10,
+    #                 allele_sequence_id=8,
+    #                 nb_of_samples=7,
+    #             ),
+    #             full_sequence="AAA"
+    #         )
+    #     )
+    #
+    #     self.assertEqual(actual, expected)
 
     # TODO: these tests were removed, as we are not merging stuff back anymore - Put them back in if merge is enabled
     # TODO: these tests were removed, as we are not merging stuff back anymore - Put them back in if merge is enabled
@@ -624,7 +636,3 @@ class TestDeduplicatedVariationsDataframe(TestCase):
     #     expected = (str(expected_ref), str(expected_query))
     #
     #     assert actual == expected
-
-
-
-

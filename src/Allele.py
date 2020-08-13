@@ -1,7 +1,7 @@
 import functools
 from typing import Tuple, Generator
 
-from src.mummer import ShowSNPsDataframe
+from src.VarifierDataframe import VarifierDataframe
 
 
 class NotASNP(Exception):
@@ -63,15 +63,15 @@ class Allele:
         return str(vars(self))
 
     @staticmethod
-    def get_alleles_from_ShowSNPsDataframe(ref: str, query: str, snps_df: ShowSNPsDataframe) -> Generator[
+    def get_alleles_from_VarifierDataframe(ref: str, query: str, snps_df: VarifierDataframe) -> Generator[
         Tuple["Allele", "Allele"], None, None]:
-        for ref_chrom, ref_pos, ref_sub, query_chrom, query_pos, query_sub in \
-                zip(snps_df["ref_chrom"], snps_df["ref_pos"], snps_df["ref_sub"],
-                    snps_df["query_chrom"], snps_df["query_pos"], snps_df["query_sub"]):
-            is_snp = len(ref_sub) == 1 and len(query_sub) == 1
+        for ref_chrom, ref_pos, ref_allele, query_chrom, query_pos, query_allele in \
+                zip(snps_df["ref_chrom"], snps_df["ref_pos"], snps_df["ref_allele"],
+                    snps_df["query_chrom"], snps_df["query_pos"], snps_df["query_allele"]):
+            is_snp = len(ref_allele) == 1 and len(query_allele) == 1
             if not is_snp:
                 continue  # we just deal with SNPs as of now
 
-            ref_allele = Allele(ref, ref_chrom, ref_pos, ref_sub)
-            query_allele = Allele(query, query_chrom, query_pos, query_sub)
+            ref_allele = Allele(ref, ref_chrom, ref_pos, ref_allele)
+            query_allele = Allele(query, query_chrom, query_pos, query_allele)
             yield ref_allele, query_allele

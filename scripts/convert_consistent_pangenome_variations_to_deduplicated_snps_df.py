@@ -30,7 +30,7 @@ consistent_pangenome_variations = ConsistentPangenomeVariations.load(consistent_
 logging.info("Converting to the deduplicated and enriched variations...")
 for snps_df_filepath, deduplicated_snps_df_filepath, deduplicated_snps_df_text_filepath \
         in zip(snps_dfs_filepaths, deduplicated_snps_dfs_filepaths, deduplicated_snps_dfs_text_filepaths):
-    deduplicated_snps_df = consistent_pangenome_variations.build_DeduplicatedVariationsDataframe_from_ShowSNPsDataframe(
+    deduplicated_snps_df = consistent_pangenome_variations.build_DeduplicatedVariationsDataframe_from_VarifierDataframe(
         snps_df_filepath, allele_mphf)
     deduplicated_snps_df.to_pickle(deduplicated_snps_df_filepath)
     deduplicated_snps_df.to_csv(deduplicated_snps_df_text_filepath, index=False)
