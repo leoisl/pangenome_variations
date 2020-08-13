@@ -43,6 +43,7 @@ class DeduplicatedVariationsDataframe(pd.DataFrame):
                 allele_sequence_id=row[f"{prefix}_allele_sequence_id"],
                 nb_of_samples=row["nb_of_samples"],
             )
-            probes.append(Probe(header=header, full_sequence=row[f"{prefix}_probe"]))
+            full_sequence = row[f"{prefix}_probe"]
+            probes.append(Probe(header=header, full_sequence=full_sequence))
 
         return tuple(probes)
