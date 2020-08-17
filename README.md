@@ -16,7 +16,10 @@ The version used in the pandora paper has tag `pandora_paper_tag1`.
 ## Requirements
 
 ### Dependencies
-You need `singularity` and `python 3.6+`.
+
+* python 3.6+;
+* singularity;
+
 
 ### Setting up virtualenv
 ```
@@ -33,13 +36,14 @@ snakemake -j8 --use-singularity
 
 ## Running on the paper data:
 
-Be sure you are on tag `pandora_paper_tag1`
+1. `git checkout pandora_paper_tag1`
 
-If you are on a *LSF* cluster, run:
-`bash scripts/submit_lsf.sh`
+### If you want to run locally:
+2. `bash scripts/run_pipeline_local.sh -j <NB_OF_THREADS> --configfile config.pandora_paper_tag1.yaml`
 
-Otherwise, you can run locally as:
-`bash scripts/run_pipeline_local.sh`
+### If you want to run on an LSF cluster:
+2. `bash scripts/submit_lsf.sh --configfile config.pandora_paper_tag1.yaml`
 
 # TODO
+
 Improve this README

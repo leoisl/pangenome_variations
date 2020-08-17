@@ -12,6 +12,6 @@ bsub -R "select[mem>$MEMORY] rusage[mem=$MEMORY] span[hosts=1]" \
      -o "$LOG_DIR"/"$JOB_NAME".o \
      -e "$LOG_DIR"/"$JOB_NAME".e \
      -J "$JOB_NAME" \
-     snakemake --configfile config.pandora_paper_tag1.yaml --profile "$PROFILE" --stats "$LOG_DIR"/snakemake_stats "$@"
+     snakemake --profile "$PROFILE" "$@"
 
 exit 0
