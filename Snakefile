@@ -38,7 +38,7 @@ sample_pairs_as_str = [f"{sample1}/{sample1}_and_{sample2}" for sample1, sample2
 rule all:
     input:
         expand(output_folder + "/truth_probesets/{sample_pairs_as_str}.truth_probeset.fa", sample_pairs_as_str=sample_pairs_as_str),
-        output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.png",
+        output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.pdf",
         output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.csv"
 
 
@@ -183,7 +183,7 @@ rule plot_pangenome_variants_vs_samples:
     input:
         id_and_number_of_samples_csv = rules.make_id_and_number_of_samples_csv.output.id_and_number_of_samples_csv
     output:
-        plot = output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.png",
+        plot = output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.pdf",
         csv_data = output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.csv"
     notebook:
         "eda/plot_pangenome_variants_vs_samples/plot_pangenome_variants_vs_samples.py.ipynb"
