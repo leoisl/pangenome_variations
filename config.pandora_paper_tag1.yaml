@@ -1,4 +1,4 @@
-output_folder:  analysis_output_pandora_paper_tag1
-samples:        metadata/samples.20_way.pandora_paper_tag1.csv
+output_folder:  pangenome_variations_pandora_paper_tag1
+samples:        metadata/samples.pandora_paper_tag1.csv
 flank_length:   50
 varifier_image: docker://leandroishilima/varifier:pandora_paper_tag1
