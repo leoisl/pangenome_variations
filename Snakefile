@@ -1,5 +1,18 @@
 import itertools
 import pandas as pd
+from pathlib import Path
+
+# ======================================================
+# Utility functions
+# ======================================================
+def update_to_absolute_path_core(path_series):
+    return path_series.apply(lambda path: str(Path(path).absolute()))
+def update_to_absolute_path(df, columns):
+    for column in columns:
+        df[column] = update_to_absolute_path_core(df[column])
+    return df
+
+
 
 # ======================================================
 # Config files and vars
@@ -13,6 +26,7 @@ varifier_image = config["varifier_image"]
 samples = pd.read_csv(samples_file)
 samples.rename(columns={"reference": "reference_assembly"}, inplace=True)
 samples = samples.set_index(["sample_id"], drop=False)
+samples = update_to_absolute_path(samples, ["reference_assembly", "mask"])
 sample_pairs = [(sample1, sample2) for sample1, sample2 in itertools.combinations(sorted(samples["sample_id"]), r=2)]
 sample_pairs_as_str = [f"{sample1}/{sample1}_and_{sample2}" for sample1, sample2 in sample_pairs]
 
