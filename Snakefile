@@ -2,8 +2,6 @@ import itertools
 import pandas as pd
 from snakemake.utils import min_version
 
-min_version("5.1.0")
-
 # ======================================================
 # Config files and vars
 # ======================================================
