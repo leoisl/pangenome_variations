@@ -23,3 +23,9 @@ sample_data/
 eda/plot_pangenome_variants_vs_samples/\.ipynb_checkpoints/
 
 eda/plot_pangenome_variants_vs_samples/id_and_number_of_samples\.csv
+
+eda/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.csv
+
+eda/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.png
+
+output_pangenome_variations_small/
