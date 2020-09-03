@@ -185,5 +185,8 @@ rule plot_pangenome_variants_vs_samples:
     output:
         plot = output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.pdf",
         csv_data = output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.csv"
+    threads: 1
+    resources:
+             mem_mb=lambda wildcards, attempt: 4000 * attempt
     notebook:
         "eda/plot_pangenome_variants_vs_samples/plot_pangenome_variants_vs_samples.py.ipynb"
