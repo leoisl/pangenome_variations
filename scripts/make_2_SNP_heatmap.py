@@ -32,17 +32,29 @@ consistent_pangenome_variations_in_two_samples_only = [variation
 ids = []
 first_samples = []
 second_samples = []
+genomes = []
+chroms = []
+positions = []
+sequences = []
 
 for variation in consistent_pangenome_variations_in_two_samples_only:
     samples = sorted(list(variation.get_set_of_samples()))
     ids.append(variation.id)
     first_samples.append(samples[0])
     second_samples.append(samples[1])
+    genomes.append(";".join([allele.genome for allele in variation.alleles]))
+    chroms.append(";".join([allele.chrom for allele in variation.alleles]))
+    positions.append(";".join([str(allele.pos) for allele in variation.alleles]))
+    sequences.append(";".join([allele.sequence for allele in variation.alleles]))
 
 two_SNP_heatmap_df = pd.DataFrame(data={
     "PANGENOME_VARIATION_ID": ids,
     "FIRST_SAMPLE": first_samples,
-    "SECOND_SAMPLE": second_samples
+    "SECOND_SAMPLE": second_samples,
+    "GENOMES": genomes,
+    "CHROMS": chroms,
+    "POSITIONS": positions,
+    "SEQUENCES": sequences,
 })
 
 
