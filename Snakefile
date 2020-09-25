@@ -39,7 +39,9 @@ rule all:
     input:
         expand(output_folder + "/truth_probesets/{sample_pairs_as_str}.truth_probeset.fa", sample_pairs_as_str=sample_pairs_as_str),
         output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.pdf",
-        output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.csv"
+        output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.csv",
+        output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.csv",
+        output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.png",
 
 
 rule make_pairwise_snps_df:
@@ -190,3 +192,33 @@ rule plot_pangenome_variants_vs_samples:
              mem_mb=lambda wildcards, attempt: 4000 * attempt
     notebook:
         "eda/plot_pangenome_variants_vs_samples/plot_pangenome_variants_vs_samples.py.ipynb"
+
+
+rule make_2_SNP_heatmap_csv:
+    input:
+         consistent_pangenome_variations=rules.convert_pangenome_variations_to_consistent_pangenome_variations.output.consistent_pangenome_variations,
+    output:
+         two_SNP_heatmap_csv = output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.csv",
+    threads: 1
+    resources:
+             mem_mb=lambda wildcards, attempt: 4000 * attempt
+    log:
+       "logs/make_2_SNP_heatmap_csv.log"
+    script:
+       "scripts/make_2_SNP_heatmap.py"
+
+
+rule make_2_SNP_heatmap_plot:
+    input:
+         two_SNP_heatmap_csv=rules.make_2_SNP_heatmap_csv.output.two_SNP_heatmap_csv
+    output:
+         two_SNP_heatmap_plot = output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.png",
+    params:
+         samples = samples.index.to_list()
+    threads: 1
+    resources:
+             mem_mb=lambda wildcards, attempt: 4000 * attempt
+    log:
+        notebook="logs/make_2_SNP_heatmap_plot/make_2_SNP_heatmap_plot.ipynb"
+    notebook:
+        "eda/plot_two_SNP_heatmap/plot_two_SNP_heatmap.ipynb"
