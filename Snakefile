@@ -201,7 +201,7 @@ rule make_2_SNP_heatmap_csv:
          two_SNP_heatmap_csv = output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.csv",
     threads: 1
     resources:
-             mem_mb=lambda wildcards, attempt: 4000 * attempt
+             mem_mb=lambda wildcards, attempt: 12000 * attempt
     log:
        "logs/make_2_SNP_heatmap_csv.log"
     script:
@@ -217,7 +217,7 @@ rule make_2_SNP_heatmap_plot:
          samples = samples.index.to_list()
     threads: 1
     resources:
-             mem_mb=lambda wildcards, attempt: 4000 * attempt
+             mem_mb=lambda wildcards, attempt: 8000 * attempt
     log:
         notebook="logs/make_2_SNP_heatmap_plot/make_2_SNP_heatmap_plot.ipynb"
     notebook:
