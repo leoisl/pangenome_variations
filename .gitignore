@@ -31,3 +31,7 @@ eda/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.pn
 output_pangenome_variations_small/
 
 eda/plot_two_SNP_heatmap/.ipynb_checkpoints/
+
+eda/plot_two_SNP_heatmap/count_df.csv
+
+eda/plot_two_SNP_heatmap/two_SNP_heatmap_data.csv

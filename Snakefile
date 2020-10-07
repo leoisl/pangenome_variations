@@ -42,6 +42,9 @@ rule all:
         output_folder+"/plot_pangenome_variants_vs_samples/pangenome_variations_per_nb_of_samples.csv",
         output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.csv",
         output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.png",
+        output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data_log.png",
+        output_folder+"/two_SNP_heatmap/two_SNP_heatmap_count_df.csv",
+        output_folder+"/two_SNP_heatmap/two_SNP_heatmap_count_matrix.txt",
 
 
 rule make_pairwise_snps_df:
@@ -213,6 +216,10 @@ rule make_2_SNP_heatmap_plot:
          two_SNP_heatmap_csv=rules.make_2_SNP_heatmap_csv.output.two_SNP_heatmap_csv
     output:
          two_SNP_heatmap_plot = output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data.png",
+         two_SNP_heatmap_plot_log = output_folder+"/two_SNP_heatmap/two_SNP_heatmap_data_log.png",
+         two_SNP_heatmap_count_df = output_folder+"/two_SNP_heatmap/two_SNP_heatmap_count_df.csv",
+         two_SNP_heatmap_count_matrix = output_folder+"/two_SNP_heatmap/two_SNP_heatmap_count_matrix.txt",
+
     params:
          samples = samples.index.to_list()
     threads: 1
