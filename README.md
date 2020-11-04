@@ -1,13 +1,13 @@
 # Pangenome Variations
 
-A snakemake pipeline that receives as input several genomes and build pangenome SNPs between them, serving as a set of
+A snakemake pipeline that receives as input several genomes and builds pangenome variants between them, serving as a set of
 truth variants to be found by variant callers.
 
-It does so by comparing all the input genomes pairwisely, and thus obtaining SNPs, then deduplicating these SNPs based
-on the coordinates of their alleles. In the end, we have, for each genome, truth probes from deduplicated SNPs, with
+It does so by comparing all the input genomes pairwisely, and thus obtaining variants, then deduplicating these variants based
+on the coordinates of their alleles. In the end, we have, for each genome, truth probes from deduplicated variants, with
 several data.
 
-A thorough explanation of this pipeline will be done soon (either in the paper or here).
+A thorough explanation of this pipeline can be found in the pandora paper (TODO: add link).
 
 The version used in the pandora paper has tag `pandora_paper_tag1`.
 
@@ -60,8 +60,3 @@ ERROR: Image file exists, not overwriting.
 
 pass to the running script the default location where singularity images are store.
 For example, in the EBI cluster, it would be `--singularity-prefix /nfs/leia/singularity/leandro/`.
-
-
-# TODO
-
-Improve this README
