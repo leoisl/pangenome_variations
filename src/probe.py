@@ -55,6 +55,9 @@ class ProbeHeader:
             number_of_different_allele_sequences: int = None,
             allele_sequence_id: int = None,
             nb_of_samples: int = None,
+            original_pos: int = None,
+            original_strand: int = None,
+            contig_length: int = None
     ):
         self.chrom = chrom
         self.sample = sample
@@ -70,6 +73,9 @@ class ProbeHeader:
         self.number_of_different_allele_sequences = number_of_different_allele_sequences
         self.allele_sequence_id = allele_sequence_id
         self.nb_of_samples = nb_of_samples
+        self.original_pos = original_pos
+        self.original_strand = original_strand
+        self.contig_length = contig_length
 
     def __eq__(self, other: "ProbeHeader") -> bool:
         return (
@@ -85,6 +91,9 @@ class ProbeHeader:
                 and self.allele_id == other.allele_id
                 and self.allele_sequence_id == other.allele_sequence_id
                 and self.nb_of_samples == other.nb_of_samples
+                and self.original_pos == other.original_pos
+                and self.original_strand == other.original_strand
+                and self.contig_length == other.contig_length
         )
 
     def __str__(self) -> str:
@@ -123,6 +132,9 @@ class ProbeHeader:
                                                                        int, None)
         allele_sequence_id = parse_field_from_header("ALLELE_SEQUENCE_ID", string, int, None)
         nb_of_samples = parse_field_from_header("NB_OF_SAMPLES", string, int, None)
+        original_pos = parse_field_from_header("ORIGINAL_POS", string, int, None)
+        original_strand = parse_field_from_header("ORIGINAL_STRAND", string, int, None)
+        contig_length = parse_field_from_header("CONTIG_LENGTH", string, int, None)
 
         return ProbeHeader(
             sample=sample,
@@ -138,7 +150,10 @@ class ProbeHeader:
             allele_id=allele_id,
             number_of_different_allele_sequences=number_of_different_allele_sequences,
             allele_sequence_id=allele_sequence_id,
-            nb_of_samples=nb_of_samples
+            nb_of_samples=nb_of_samples,
+            original_pos=original_pos,
+            original_strand=original_strand,
+            contig_length=contig_length
         )
 
 
