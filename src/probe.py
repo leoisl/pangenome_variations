@@ -39,6 +39,23 @@ class ProbeInterval(NamedTuple):
 
 
 class ProbeHeader:
+    # this is to control the size of the query probe header, as SAM headers has a limit of 254 chars:
+    field_to_abbreviation = {
+        "CHROM": "CHROM",
+        "SAMPLE": "SAMPLE",
+        "POS": "POS",
+        "REF_LENGTH": "REF_LEN",
+        "INTERVAL": "IV",
+        "PANGENOME_VARIATION_ID": "PVID",
+        "NUMBER_OF_ALLELES": "NB_ALL",
+        "ALLELE_ID": "ALL_ID",
+        "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES": "NB_DIFF_ALL_SEQ",
+        "ALLELE_SEQUENCE_ID": "ALL_SEQ_ID",
+        "NB_OF_SAMPLES": "NB_OF_SAMPLES",
+        "ORIGINAL_POS": "OR_POS",
+        "ORIGINAL_STRAND": "OR_STRAND",
+        "CONTIG_LENGTH": "CTG_LEN"}
+
     def __init__(
             self,
             sample: str = None,
@@ -97,7 +114,7 @@ class ProbeHeader:
         )
 
     def __str__(self) -> str:
-        list_of_key_values_to_add = [f"{k.upper()}={str(v)}" for k, v in vars(self).items() if v is not None]
+        list_of_key_values_to_add = [f"{self.field_to_abbreviation[k.upper()]}={str(v)}" for k, v in vars(self).items() if v is not None]
         contents = DELIM.join(list_of_key_values_to_add)
         if not contents:
             return ""
@@ -118,23 +135,23 @@ class ProbeHeader:
         chrom = parse_field_from_header("CHROM", string, str, None)
         sample = parse_field_from_header("SAMPLE", string, str, None)
         pos = parse_field_from_header("POS", string, int, None)
-        ref_length = parse_field_from_header("REF_LENGTH", string, int, None)
+        ref_length = parse_field_from_header("REF_LEN", string, int, None)
         svtype = parse_field_from_header("SVTYPE", string, str, None)
         gt_conf = parse_field_from_header("GT_CONF", string, float, None)
         interval = ProbeInterval.from_string(
-            parse_field_from_header("INTERVAL", string, str, None)
+            parse_field_from_header("IV", string, str, None)
         )
         coverage = parse_field_from_header("COVERAGE", string, float, None)
-        pangenome_variation_id = parse_field_from_header("PANGENOME_VARIATION_ID", string, int, None)
-        number_of_alleles = parse_field_from_header("NUMBER_OF_ALLELES", string, int, None)
-        allele_id = parse_field_from_header("ALLELE_ID", string, int, None)
-        number_of_different_allele_sequences = parse_field_from_header("NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES", string,
+        pangenome_variation_id = parse_field_from_header("PVID", string, int, None)
+        number_of_alleles = parse_field_from_header("NB_ALL", string, int, None)
+        allele_id = parse_field_from_header("ALL_ID", string, int, None)
+        number_of_different_allele_sequences = parse_field_from_header("NB_DIFF_ALL_SEQ", string,
                                                                        int, None)
-        allele_sequence_id = parse_field_from_header("ALLELE_SEQUENCE_ID", string, int, None)
+        allele_sequence_id = parse_field_from_header("ALL_SEQ_ID", string, int, None)
         nb_of_samples = parse_field_from_header("NB_OF_SAMPLES", string, int, None)
-        original_pos = parse_field_from_header("ORIGINAL_POS", string, int, None)
-        original_strand = parse_field_from_header("ORIGINAL_STRAND", string, int, None)
-        contig_length = parse_field_from_header("CONTIG_LENGTH", string, int, None)
+        original_pos = parse_field_from_header("OR_POS", string, int, None)
+        original_strand = parse_field_from_header("OR_STRAND", string, int, None)
+        contig_length = parse_field_from_header("CTG_LEN", string, int, None)
 
         return ProbeHeader(
             sample=sample,

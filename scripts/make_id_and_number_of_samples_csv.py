@@ -28,7 +28,7 @@ ids = [variation.id for variation in consistent_pangenome_variations.consistent_
 numbers_of_samples = [variation.get_number_of_samples()
                       for variation in consistent_pangenome_variations.consistent_pangenome_variations]
 id_and_number_of_samples_df = pd.DataFrame(data={
-    "PANGENOME_VARIATION_ID": ids,
+    "PVID": ids,
     "NUMBER_OF_SAMPLES": numbers_of_samples})
 
 
