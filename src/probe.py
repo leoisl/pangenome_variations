@@ -54,7 +54,10 @@ class ProbeHeader:
         "NB_OF_SAMPLES": "NB_OF_SAMPLES",
         "ORIGINAL_POS": "OR_POS",
         "ORIGINAL_STRAND": "OR_STRAND",
-        "CONTIG_LENGTH": "CTG_LEN"}
+        "CONTIG_LENGTH": "CTG_LEN",
+        "GT_CONF": "GT_CONF",
+        "SVTYPE": "SVTYPE",
+        "COVERAGE": "COVERAGE"}
 
     def __init__(
             self,
