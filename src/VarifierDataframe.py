@@ -114,6 +114,8 @@ class VarifierDataframe(pd.DataFrame):
             "ref_probe": ref_probe,
             "ref_probe_interval": ref_probe_interval,
             "ref_len": ref_len,
+            "ref_original_pos": ref_pos,
+            "ref_original_strand": ref_strand,
             "query_chrom": query_chrom,
             "query_pos": query_pos,
             "query_allele": query_allele,
@@ -121,6 +123,8 @@ class VarifierDataframe(pd.DataFrame):
             "query_probe": query_probe,
             "query_probe_interval": query_probe_interval,
             "query_len": query_len,
+            "query_original_pos": query_pos,
+            "query_original_strand": query_strand,
         })
 
         varifier_df = varifier_df.translate_to_FWD_strand()

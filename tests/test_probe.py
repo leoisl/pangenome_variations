@@ -100,9 +100,9 @@ class TestProbeHeader:
         assert actual == expected
 
     def test_fromString_allFieldsInStringReturnsProbeHeaderWithAllFields(self):
-        string = ">CHROM=1;SAMPLE=CFT073;POS=1;REF_LENGTH=25;INTERVAL=[0,72);SVTYPE=INDEL;MEAN_FWD_COVG=2;MEAN_REV_COVG=3;GT_CONF=10.9922;" \
-                 "COVERAGE=13;PANGENOME_VARIATION_ID=42;NUMBER_OF_ALLELES=3;ALLELE_ID=1;" \
-                 "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;NB_OF_SAMPLES=7;"
+        string = ">CHROM=1;SAMPLE=CFT073;POS=1;REF_LEN=25;IV=[0,72);SVTYPE=INDEL;MEAN_FWD_COVG=2;MEAN_REV_COVG=3;GT_CONF=10.9922;" \
+                 "COVERAGE=13;PVID=42;NB_ALL=3;ALL_ID=1;" \
+                 "NB_DIFF_ALL_SEQ=10;ALL_SEQ_ID=4;NB_OF_SAMPLES=7;"
 
         actual = ProbeHeader.from_string(string)
         expected = ProbeHeader(
@@ -187,9 +187,9 @@ class TestProbeHeader:
         )
 
         actual = str(header)
-        expected = ">CHROM=1;SAMPLE=CFT073;POS=1;REF_LENGTH=25;INTERVAL=[0,72);SVTYPE=INDEL;GT_CONF=10.9922;" \
-                   "COVERAGE=13;PANGENOME_VARIATION_ID=42;NUMBER_OF_ALLELES=3;ALLELE_ID=1;" \
-                   "NUMBER_OF_DIFFERENT_ALLELE_SEQUENCES=10;ALLELE_SEQUENCE_ID=4;NB_OF_SAMPLES=7;"
+        expected = ">CHROM=1;SAMPLE=CFT073;POS=1;REF_LEN=25;IV=[0,72);SVTYPE=INDEL;GT_CONF=10.9922;" \
+                   "COVERAGE=13;PVID=42;NB_ALL=3;ALL_ID=1;" \
+                   "NB_DIFF_ALL_SEQ=10;ALL_SEQ_ID=4;NB_OF_SAMPLES=7;"
 
         assert actual == expected
 
@@ -407,7 +407,7 @@ class TestProbe:
         assert actual == expected
 
     def test_fromString_headerOnlyStringReturnsProbeWithNoFullSequence(self):
-        string = ">CHROM=1;INTERVAL=[3,5);"
+        string = ">CHROM=1;IV=[3,5);"
 
         actual = Probe.from_string(string)
         expected = Probe(header=ProbeHeader(chrom="1", interval=ProbeInterval(3, 5)))
@@ -417,7 +417,7 @@ class TestProbe:
     def test_fromString_headerAndEmptySequenceInStringReturnsProbeWithNoFullSequence(
             self
     ):
-        string = ">CHROM=1;INTERVAL=[3,5);\n"
+        string = ">CHROM=1;IV=[3,5);\n"
 
         actual = Probe.from_string(string)
         expected = Probe(header=ProbeHeader(chrom="1", interval=ProbeInterval(3, 5)))
@@ -425,7 +425,7 @@ class TestProbe:
         assert actual == expected
 
     def test_fromString_headerAndSequenceInStringReturnsFullProbe(self):
-        string = ">CHROM=1;INTERVAL=[3,5);\nfoo"
+        string = ">CHROM=1;IV=[3,5);\nfoo"
 
         actual = Probe.from_string(string)
         expected = Probe(

@@ -42,7 +42,13 @@ class TestDeduplicatedVariationsDataframe(TestCase):
             "ref_chrom": "1",
             "query_chrom": "1",
             "ref_pos": 73,
+            "ref_original_pos": 73,
+            "ref_original_strand": 1,
+            "ref_len": 5000,
             "query_pos": 72,
+            "query_original_pos": 322,
+            "query_original_strand": -1,
+            "query_len": 9999,
             "pangenome_variation_id": 42,
             "number_of_alleles": 5,
             "ref_allele_id": 2,
@@ -68,6 +74,9 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_different_allele_sequences=10,
                     allele_sequence_id=5,
                     nb_of_samples=7,
+                    original_pos=73,
+                    original_strand=1,
+                    contig_length=5000
                 ),
                 full_sequence="GGATTGA"
             ),
@@ -84,6 +93,9 @@ class TestDeduplicatedVariationsDataframe(TestCase):
                     number_of_different_allele_sequences=10,
                     allele_sequence_id=8,
                     nb_of_samples=7,
+                    original_pos=322,
+                    original_strand=-1,
+                    contig_length=9999
                 ),
                 full_sequence="GGAATGA"
             )

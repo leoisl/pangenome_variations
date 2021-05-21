@@ -48,7 +48,7 @@ for variation in consistent_pangenome_variations_in_two_samples_only:
     sequences.append(";".join([allele.sequence for allele in variation.alleles]))
 
 two_SNP_heatmap_df = pd.DataFrame(data={
-    "PANGENOME_VARIATION_ID": ids,
+    "PVID": ids,
     "FIRST_SAMPLE": first_samples,
     "SECOND_SAMPLE": second_samples,
     "GENOMES": genomes,
